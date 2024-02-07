@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &32703697
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &137462231
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -546,7 +546,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208913174}
-  m_LocalRotation: {x: -1e-45, y: 0.9463082, z: -0.32326588, w: -1e-45}
+  m_LocalRotation: {x: 1e-45, y: 0.9463082, z: -0.32326588, w: 3e-45}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -797,7 +797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &461415665
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &489989333
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1972,7 +1972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1140265188
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2198,7 +2198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1226834511
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2734,7 +2734,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!1 &1341376788
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,7 +2846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1341376794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3008,7 +3008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1414524536
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3463,7 +3463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1533102412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3723,7 +3723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1594887412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4152,7 +4152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1879409918
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4421,7 +4421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54ab0160109f349990de88bfa61e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPower: 0
+  pushPower: 20
 --- !u!54 &1889004048
 Rigidbody:
   m_ObjectHideFlags: 0
