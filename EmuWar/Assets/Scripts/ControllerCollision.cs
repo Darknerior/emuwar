@@ -17,15 +17,12 @@ public class ControllerCollision : MonoBehaviour
         // We dont want to push objects below us
         if (hit.moveDirection.y < -0.3f)
             return;
-        try
-        {
-            hit.transform.GetComponent<TurnOnRigidbody>().Enable();
-            pushPower = hit.transform.GetComponent<TurnOnRigidbody>().pushPower;
-        }
-        catch
-        {
-            // ignored
-        }
+
+        var turonrb = hit.transform.GetComponent<TurnOnRigidbody>();
+        if(turonrb == null)return;
+        turonrb.Enable(); 
+        pushPower = turonrb.pushPower;
+      
 
 
         // Calculate push direction from move direction,
