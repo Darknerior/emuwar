@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControllerCollision : MonoBehaviour
 {
-    public float pushPower = 2.0F;
+    private float pushPower = 20f;
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -17,7 +17,17 @@ public class ControllerCollision : MonoBehaviour
         // We dont want to push objects below us
         if (hit.moveDirection.y < -0.3f)
             return;
-        hit.transform.GetComponent<TurnOnRigidbody>().Enable();
+        try
+        {
+            hit.transform.GetComponent<TurnOnRigidbody>().Enable();
+            pushPower = hit.transform.GetComponent<TurnOnRigidbody>().pushPower;
+        }
+        catch
+        {
+            // ignored
+        }
+
+
         // Calculate push direction from move direction,
         // we only push objects to the sides never up and down
         var pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
