@@ -1,17 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ControllerCollision : MonoBehaviour
 {
-    private float pushPower = 20f;
+    private float pushPower;
+    private float playerSpeed;
+    private PlayerMovement playerMovement;
+    [SerializeReference] private float pushPowerMultiplier = 1.5f;
+    [SerializeReference] private float  minimumPlayerSpeed = 1.5f;
+
+    private void Start()
+    {
+        playerMovement = this.GameObject().GetComponent<PlayerMovement>();
+    }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var body = hit.collider.attachedRigidbody;
-    
-        // no rigidbody
-        if (body == null || body.isKinematic)
+        playerSpeed = playerMovement.playerSpeed;
+        
+        //Return if no rigid body or if the minimum player speed is not met
+        if (body == null || body.isKinematic || playerSpeed < minimumPlayerSpeed)
             return;
 
         // We dont want to push objects below us
@@ -21,7 +33,7 @@ public class ControllerCollision : MonoBehaviour
         var turonrb = hit.transform.GetComponent<TurnOnRigidbody>();
         if(turonrb == null)return;
         turonrb.Enable(); 
-        pushPower = turonrb.pushPower;
+        pushPower = playerSpeed * pushPowerMultiplier;
       
 
 

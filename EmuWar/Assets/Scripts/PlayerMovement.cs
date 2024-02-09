@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,7 +14,7 @@ public class PlayerMovement : MonoBehaviour {
     private float defaultPlayerSpeed;
     
     //Serialized Variables
-    [SerializeField]private float playerSpeed =  1.12f;//EMU WALK SPEED 2.5MPH
+    [SerializeField]public float playerSpeed =  1.12f;//EMU WALK SPEED 2.5MPH
     [SerializeField]private float maxPlayerSpeed = 13.85f;//TOP EMU SPEED 31MPH
     [SerializeField]private float playerAcceleration = 4.47f;//CHATGPT ESTIMATE
     [SerializeField]private float playerRotationSpeed = 2.0f;
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour {
         controller = GetComponent<CharacterController>();
         playerTransform = transform;
         defaultPlayerSpeed = playerSpeed;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     
     private void Update() {
@@ -49,13 +52,13 @@ public class PlayerMovement : MonoBehaviour {
             moveDirection = playerTransform.forward;
             if(playerSpeed < maxPlayerSpeed && Input.GetKey(sprintKey))playerSpeed += playerAcceleration * Time.deltaTime;//Accelerate
         }
-        else if (Input.GetAxisRaw("Vertical") < 0) {
-            moveDirection = -playerTransform.forward;
-        }
+        else if (Input.GetAxisRaw("Vertical") < 0)moveDirection = -playerTransform.forward;
+
         
         //Reset Player Speed    
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(sprintKey)) playerSpeed = defaultPlayerSpeed;
-        
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(sprintKey)) playerSpeed = defaultPlayerSpeed; 
+
+
 
         // Move the player using CharacterController
         controller.Move((playerSpeed * moveDirection + playerVelocity) * Time.deltaTime);

@@ -6,7 +6,6 @@ using UnityEngine;
 public class TurnOnRigidbody : MonoBehaviour
 {
     private Rigidbody rb;
-    public float pushPower = 20f;
 
     // Start is called before the first frame update
     void Start()
