@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
     [SerializeField] private float reloadSpeed;
     [SerializeField] private int magSize;
     private int currentMag;
@@ -43,15 +43,11 @@ public class Weapon : MonoBehaviour
             if (reloaded)
             {
                 Reload();
-                reloaded = false;
             }
             return;
         }
-        GameObject bullet = GameManager.Instance.Pool.Get(ObjectList.BULLET,true);
-        bullet.transform.position = this.transform.position;
-        bullet.transform.forward = this.transform.forward;
-        bullet.gameObject.SetActive(true);
-        bullet.GetComponent<Rigidbody>().AddRelativeForce(this.transform.forward * projectileSpeed,ForceMode.Impulse);
+
+        GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, transform.position, transform.forward, projectileSpeed);
         currentMag--;
         
         if (currentMag != 0)
@@ -68,6 +64,7 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator ReloadCooldown()
     {
+        reloaded = false;
         yield return new WaitForSeconds(reloadSpeed);
 
         currentMag = magSize;
@@ -82,4 +79,5 @@ public class Weapon : MonoBehaviour
         coroutine = null;
         readyToFire = true;
     }
+
 }
