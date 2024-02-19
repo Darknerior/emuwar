@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
 
     [DoNotSerialize] public ObjectPooler<GameObject> Pool;
     [SerializeField] private GameObject bullet;
+    private bool gameIsPaused = false;
 
     public void Awake()
     {
@@ -20,8 +21,22 @@ public class GameManager : Singleton<GameManager>
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
     }
 
-    private void PauseGame(bool isPaused){
-        isPaused? Time.timeScale = 0.0f : Time.timeScale = 1.0f;
+    /// <summary>
+    /// Pause or unpause the game. Assign this to any button or UIElement you want to control the pause state.
+    /// </summary>
+    public void PauseGame() 
+    {
+        gameIsPaused = !gameIsPaused;
+        ChangeFocus();
+        Time.timeScale = gameIsPaused ?  0.0f : 1.0f;
+    }
+
+    /// <summary>
+    /// Sets the cursor to visible if the game is paused.
+    /// </summary>
+    private void ChangeFocus()
+    {
+        Cursor.lockState = gameIsPaused ? CursorLockMode.Confined : CursorLockMode.Locked; 
     }
 
 
