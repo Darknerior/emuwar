@@ -20,5 +20,9 @@ public class GameManager : Singleton<GameManager>
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
     }
 
+    private void PauseGame(bool isPaused){
+        isPaused? Time.timeScale = 0.0f : Time.timeScale = 1.0f;
+    }
+
 
 }
