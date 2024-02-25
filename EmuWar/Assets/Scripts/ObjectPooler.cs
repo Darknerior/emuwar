@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : ScriptableObject
+public class ObjectPooler<T> where T : UnityEngine.Object
 {
-    public Dictionary<ObjectList, List<GameObject>> GamePool;
+    private Dictionary<ObjectList, List<GameObject>> GamePool;
     private Dictionary<ObjectList, GameObject> referencePool;
 
    public ObjectPooler()
@@ -31,6 +31,7 @@ public class ObjectPooler : ScriptableObject
 
         if(!obj.TryGetComponent(out IPoolable _))
         {
+            Debug.Log("Not Added");
             return;
         }
 
@@ -39,15 +40,13 @@ public class ObjectPooler : ScriptableObject
 
         for(int i = 0; i < size; i++)
         {
-            GameObject newObject = Instantiate(obj);
+            GameObject newObject = GameObject.Instantiate(obj);
             newObject.SetActive(false);
             list.Add( newObject );
         }
-
+        Debug.Log($"Added {objectType.ToString()} to the list {obj.name}");
         GamePool.Add(objectType, list);
-
     }
-
 
     public void ReturnAllToPool()
     {
@@ -65,7 +64,7 @@ public class ObjectPooler : ScriptableObject
 
     /// <summary>
     /// Returns one object from specified list.
-    /// Will create a new object if resizable is set to tru and none are available.
+    /// Will create a new object if resizable is set to true and none are available.
     /// </summary>
     /// <param name="objectType">Identifier for object list</param>
     /// <param name="resizable">Can more objects be made? Default is false</param>
@@ -82,14 +81,13 @@ public class ObjectPooler : ScriptableObject
 
         if (resizable)
         {
-            GameObject extraObj = Instantiate(referencePool[objectType]);
+            GameObject extraObj = GameObject.Instantiate(referencePool[objectType]);
             extraObj.SetActive(false);
             GamePool[objectType].Add(extraObj);
             return extraObj;
         }
 
         return null;
-
     }
 
     /// <summary>
@@ -120,22 +118,19 @@ public class ObjectPooler : ScriptableObject
         {
             for(int i = count; i <= amount; i++)
             {
-                GameObject newObject = Instantiate(referencePool[objectType]);
+                GameObject newObject = GameObject.Instantiate(referencePool[objectType]);
                 newObject.SetActive(false);
                 GamePool[objectType].Add(newObject);
                 result.Add(newObject);
             }
         }
-
         return result.Count == amount ? result : null;
-
-
     }
 }
 
 public enum ObjectList
 {
-    
+    BULLET
 }
 
 public interface IPoolable
