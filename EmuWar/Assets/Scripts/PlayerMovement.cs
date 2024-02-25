@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool groundedPlayer;
     private Transform playerTransform;
     private float defaultPlayerSpeed;
-    private CinemachineFreeLook CMcamera;
+    private bool aimed;
     
     //Serialized Variables
     [SerializeField]public float playerSpeed =  1.12f;//EMU WALK SPEED 2.5MPH
@@ -26,11 +26,13 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]private float gravityValue = -9.81f;
     [SerializeField]private KeyCode jumpKey = KeyCode.Space, sprintKey = KeyCode.LeftShift;
     [SerializeField]private GameObject camera;
+    [SerializeField]private Camera cameraWP;
+    [SerializeField]private Camera cameraPlayer;
+
     
     
     private void Start() {
         controller = GetComponent<CharacterController>();
-        CMcamera = camera.GetComponent<CinemachineFreeLook>();
         playerTransform = transform;
         defaultPlayerSpeed = playerSpeed;
         Cursor.lockState = CursorLockMode.Locked;
@@ -52,18 +54,34 @@ public class PlayerMovement : MonoBehaviour {
         
 
         // Calculate movement direction based on input
+        if (Input.GetKeyDown(KeyCode.Mouse1)) {
+            //CMcamera.m_RecenterToTargetHeading.m_enabled = true;
+            cameraPlayer.gameObject.SetActive(false);
+            cameraWP.gameObject.SetActive(true);
+            aimed = true;
+
+        }
         var moveDirection = Vector3.zero;
         if (Input.GetAxisRaw("Vertical") > 0) {
-            CMcamera.m_RecenterToTargetHeading.m_enabled = true;
+            //CMcamera.m_RecenterToTargetHeading.m_enabled = true;
             moveDirection = playerTransform.forward;
             if(playerSpeed < maxPlayerSpeed && Input.GetKey(sprintKey))playerSpeed += playerAcceleration * Time.deltaTime;//Accelerate
         }
         else if (Input.GetAxisRaw("Vertical") < 0) {
             moveDirection = -playerTransform.forward;
-            CMcamera.m_RecenterToTargetHeading.m_enabled = false;
+            
         }
-        else CMcamera.m_RecenterToTargetHeading.m_enabled = false;
 
+        if (!Input.GetKey(KeyCode.Mouse1) && Input.GetAxisRaw("Vertical") <= 0)
+        {
+            //CMcamera.m_RecenterToTargetHeading.m_enabled = false;
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            cameraPlayer.gameObject.SetActive(true);
+            cameraWP.gameObject.SetActive(false);
+            aimed = false;
+        }
         
         //Reset Player Speed    
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(sprintKey)) playerSpeed = defaultPlayerSpeed; 
@@ -88,7 +106,16 @@ public class PlayerMovement : MonoBehaviour {
     private void Rotate() {
         //Rotates based on horizontal input
         var rotateSpeed = playerSpeed > defaultPlayerSpeed ? playerSprintRotationSpeed : playerRotationSpeed;
-        transform.Rotate(new Vector3(0,Input.GetAxisRaw("Horizontal") * rotateSpeed, 0));
+
+        if (!aimed)
+        {
+            transform.Rotate(new Vector3(0,Input.GetAxisRaw("Horizontal") * rotateSpeed, 0));
+        }
+        else
+        {
+            transform.Rotate(new Vector3(0,Input.GetAxis("Mouse X") * rotateSpeed, 0));
+        }
+        
     }
 
 }
