@@ -7,7 +7,7 @@ public class BaseController
     List<Base> bases = new List<Base>();
    public BaseController()
     {
-        bases.AddRange(GameObject.FindObjectsByType<Base>(FindObjectsSortMode.None).ToList());
+        //bases.AddRange(GameObject.FindObjectsByType<Base>(FindObjectsSortMode.None).ToList());
 
         Debug.Log(bases.Count);
     }

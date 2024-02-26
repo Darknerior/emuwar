@@ -6,17 +6,14 @@ using UnityEngine;
 public class TurnOnRigidbody : MonoBehaviour
 {
     private Rigidbody rb;
-
-    // Start is called before the first frame update
-    void Start()
-    {
+    
+    void Start() {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
-    public void Enable()
-    {
+    public void Enable() {
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.None;
         rb.freezeRotation = false;

@@ -18,6 +18,22 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
+        // Find the player GameObject from the scene
+        var player = GameObject.FindGameObjectWithTag("Player");
+
+        // Get all instantiated NPC prefabs in the scene
+        var npcs = FindObjectsOfType<EmuNPC>();
+        var enemies = FindObjectsOfType<Enemy>();
+
+        // Set the player reference for each NPC prefab
+        foreach (var npc in npcs) {
+            npc.player = player;
+        }
+        
+        foreach (var npc in enemies) {
+            npc.player = player;
+        }
+        
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
     }
 

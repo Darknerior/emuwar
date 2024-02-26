@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Interfaces;
 
 public class ObjectPooler<T> where T : UnityEngine.Object
 {
@@ -133,7 +134,4 @@ public enum ObjectList
     BULLET
 }
 
-public interface IPoolable
-{
-   void ReturnToPool();
-}
+

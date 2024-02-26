@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Interfaces;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour , IPoolable
