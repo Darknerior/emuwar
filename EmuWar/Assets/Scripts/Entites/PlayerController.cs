@@ -1,4 +1,6 @@
 using UnityEngine;
+using Cinemachine;
+using UnityEngine.EventSystems;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -11,6 +13,9 @@ public class PlayerController : GameEntity {
     private float defaultPlayerSpeed;
     private bool aimed;
     private float xRotation;
+    private CinemachineVirtualCamera virtualCamera;
+    private Transform playerCamParent;
+    private Vector3 moveDirection;
     
     //Serialized Variables
     [SerializeField]private float emuWalkSpeed = 1.12f;//TOP EMU SPEED 31MPH
@@ -31,6 +36,8 @@ public class PlayerController : GameEntity {
         controller = GetComponent<CharacterController>();
         playerTransform = transform;
         defaultPlayerSpeed = speed;
+        virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
+        playerCamParent = cameraPlayer.transform.parent;
         
         //Cursor settings
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,34 +57,37 @@ public class PlayerController : GameEntity {
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)playerVelocity.y = 0f;
         
+        // Calculate movement direction based on camera direction
+        var cameraForward = cameraPlayer.transform.forward;
+        var cameraRight = cameraPlayer.transform.right;
+        cameraForward.y = 0f; // Remove vertical component for horizontal movement
+        cameraRight.y = 0f; // Remove vertical component for horizontal movement
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+    
+        moveDirection = cameraForward * Input.GetAxisRaw("Vertical") + cameraRight * Input.GetAxisRaw("Horizontal");
 
+            
         
         
-        
-        // Calculate movement direction based on input
-        var moveDirection = Vector3.zero;
-        if (Input.GetAxisRaw("Vertical") > 0) {
-            moveDirection = playerTransform.forward;
-            if(speed < maxPlayerSpeed && Input.GetKey(sprintKey))speed += playerAcceleration * Time.deltaTime;//Accelerate
-        }
-        else if (Input.GetAxisRaw("Vertical") < 0) {
-            moveDirection = -playerTransform.forward;
-        }
+        //Acceleration
+        if(speed < maxPlayerSpeed && Input.GetKey(sprintKey))speed += playerAcceleration * Time.deltaTime;
         
         //Switches the camera view when aiming
-        if (Input.GetKeyDown(KeyCode.Mouse1)) {
-            cameraPlayer.gameObject.SetActive(false);
-            cameraWp.gameObject.SetActive(true);
-            vCamera.SetActive(false);
-            aimed = true;
-
+        if (Input.GetKeyDown(aimkey)) {
             // Reset the weapon camera to the default rotation
             cameraWp.transform.localRotation = Quaternion.identity;
+            
+            cameraWp.gameObject.SetActive(true);
+            cameraPlayer.gameObject.SetActive(false);
+            vCamera.SetActive(false);
+            aimed = true;
         }
         else if (Input.GetKeyUp(aimkey)) {
+            vCamera.SetActive(true);
+            virtualCamera.ForceCameraPosition(cameraPlayer.transform.position, cameraPlayer.transform.rotation);
             cameraPlayer.gameObject.SetActive(true);
             cameraWp.gameObject.SetActive(false);
-            vCamera.SetActive(true);
             aimed = false;
         }
         
@@ -99,6 +109,10 @@ public class PlayerController : GameEntity {
     /// Rotation for the controller
     /// </summary>
     private void Rotate() {
+        // Get the current rotation of the camera
+        Quaternion cameraRotation;
+        Quaternion targetRotation;
+        
         //Rotates based on horizontal input
         var rotateSpeed = speed > defaultPlayerSpeed ? playerSprintRotationSpeed : playerRotationSpeed;
         // Rotates based on mouse input when aimed
@@ -107,21 +121,31 @@ public class PlayerController : GameEntity {
             var mouseX = Input.GetAxis("Mouse X") * rotateSpeed;
             var mouseY = Input.GetAxis("Mouse Y") * rotateSpeed;
             
-
-            // Rotate the player model horizontally based on mouse X input
-            transform.Rotate(Vector3.up * mouseX);
-            
-            //Apply clamped vertical local rotation to the weapon camera
+            //Apply clamped vertical local rotation to the weapon camera and horizontal rotation to the player.
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -camWpClamp, camWpClamp);
             cameraWp.transform.localRotation = Quaternion.Euler(xRotation,0f , 0f);
+            transform.Rotate(Vector3.up * mouseX);
+            
+            //Set camera parent to this transform so it stays in the same relative position
+            cameraPlayer.transform.SetParent(transform);
+
                 
         }
         else {
             xRotation = 0;
-            // Rotates based on horizontal input when not aimed
-            transform.Rotate(new Vector3(0, Input.GetAxisRaw("Horizontal") * rotateSpeed, 0));
+            // Calculate the target rotation for the player to face the direction of the camera
+            targetRotation =  Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+        
+            // Lerp the player's rotation towards the target rotation when moving
+            if (moveDirection != Vector3.zero)transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            
+            //Revert camera to original parent
+            cameraPlayer.transform.SetParent(playerCamParent);
+
         }
+        
+       
     }
     
     public void Damage(float damage){
