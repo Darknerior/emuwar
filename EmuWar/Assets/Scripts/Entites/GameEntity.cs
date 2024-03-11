@@ -9,6 +9,7 @@ public class GameEntity : MonoBehaviour, IDamageable
     protected float health;
     protected float dmg;
     public float speed;
+    protected float maxHealth;
     
     /// <summary>
     /// Subtracts damage from health
@@ -16,7 +17,22 @@ public class GameEntity : MonoBehaviour, IDamageable
     /// <param name="damage"></param>
     public void TakeDamage(float damage) {
         health -= damage;
+        CheckHealth();
     }
+
+    private void CheckHealth() {
+        if(health <= 0)Die();
+        if(health > maxHealth)health = maxHealth;
+    }
+    
+    
+    public float RemainingHealth => health;
+
+    public void Heal(float heals) {
+        TakeDamage(-heals); 
+        CheckHealth();
+    }
+
     
     /// <summary>
     /// All entities should implement movement

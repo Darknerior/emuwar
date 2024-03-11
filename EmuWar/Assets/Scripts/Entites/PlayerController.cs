@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using Interfaces;
 using UnityEngine.EventSystems;
 
 
@@ -16,28 +17,32 @@ public class PlayerController : GameEntity {
     private Transform playerCamParent;
     private Vector3 moveDirection;
     private Weapon weapon;
+    private Animator animator;
     
     //Serialized Variables
     [SerializeField]private float emuWalkSpeed = 1.12f;//TOP EMU SPEED 31MPH
     [SerializeField]private float maxPlayerSpeed = 13.85f;//TOP EMU SPEED 31MPH
     [SerializeField]private float playerAcceleration = 4.47f;//CHATGPT ESTIMATE
     [SerializeField]private float jumpHeight = 2.1f;//EMU JUMP HEIGHT
-    [SerializeField]private float playerRotationSpeed = 0.5f, playerSprintRotationSpeed = 2.0f,gravityValue = -9.81f, maxPlayerHealth = 100f, startingPlayerHealth = 100f;
+    [SerializeField]private float playerRotationSpeed = 0.5f, playerSprintRotationSpeed = 2.0f,gravityValue = -9.81f, startingPlayerHealth = 100f;
     [SerializeField]private KeyCode jumpKey = KeyCode.Space, sprintKey = KeyCode.LeftShift, aimkey = KeyCode.Mouse1;
     [SerializeField]private Camera cameraWp;
     [SerializeField]private Camera cameraPlayer;
     [SerializeField]private GameObject vCamera;
     [SerializeField]private float camWpClamp = 30f;
-    
+    private static readonly int IsWalking = Animator.StringToHash("isWalking");
+
     private void Start(){
         //assign vars
         speed = emuWalkSpeed;
         health = startingPlayerHealth;
+        maxHealth = health;
         controller = GetComponent<CharacterController>();
         defaultPlayerSpeed = speed;
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
         weapon = GetComponent<Weapon>();
+        animator = GetComponentInChildren<Animator>();
         
         //Cursor settings
         Cursor.lockState = CursorLockMode.Locked;
@@ -47,14 +52,25 @@ public class PlayerController : GameEntity {
     private void Update() {
         Movement();
         Rotate();
+        Animation();
 
         if(Input.GetMouseButton(0))
         {
             weapon.Shoot();
         }
+
+        
     }
     
-    
+    /// <summary>
+    /// Player Animation
+    /// </summary>
+    private void Animation() {
+        animator.SetBool(IsWalking, moveDirection != new Vector3(0, 0, 0));
+        animator.speed = speed / emuWalkSpeed;
+    }
+
+
     /// <summary>
     /// Movement for the controller
     /// </summary>
@@ -71,8 +87,6 @@ public class PlayerController : GameEntity {
         cameraRight.Normalize();*/
     
         moveDirection = cameraForward * Input.GetAxisRaw("Vertical") + cameraRight * Input.GetAxisRaw("Horizontal");
-
-            
         
         
         //Acceleration
@@ -153,14 +167,7 @@ public class PlayerController : GameEntity {
        
     }
     
-    public void Damage(float damage){
-        TakeDamage(damage); // Call base class method
-        if (health > maxPlayerHealth) health = maxPlayerHealth;//Ensure health does not exceed max
-        else if(health <= 0)Die();//Die 
-    }
 
-    protected void Attack(float damage) {
-        DealDamage(damage);
-    }
+
 
 }

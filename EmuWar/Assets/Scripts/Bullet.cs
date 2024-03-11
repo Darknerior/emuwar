@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour , IPoolable
     private LayerMask mask;
     private float range;
     [SerializeField] private float timeOut;
-    public int damage = 1;
+    [SerializeField] private int damage = 1;
     private Vector3 startPos;
     private float clock;
 
@@ -69,7 +69,7 @@ public class Bullet : MonoBehaviour , IPoolable
         {
             return;
         }
-        if (other.gameObject.TryGetComponent(out IHaveHealth health))
+        if (other.gameObject.TryGetComponent(out IDamageable health))
         {
             health.TakeDamage(damage);
         }

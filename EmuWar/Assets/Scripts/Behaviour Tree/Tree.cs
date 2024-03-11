@@ -10,7 +10,7 @@ namespace BehaviourTree
     /// <summary>
     /// Base Class for Behaviour tree. This is where the root node for the tree begins.
     /// </summary>
-    public abstract class Tree : MonoBehaviour
+    public abstract class Tree : GameEntity
     {
         private Node root = null;
         private Dictionary<string, object> sharedData = new();
