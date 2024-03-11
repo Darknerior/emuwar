@@ -9,10 +9,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float reloadSpeed;
     [SerializeField] private int magSize;
+    [SerializeField] private float range;
     private int currentMag;
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float shotsPerSecond;
     [SerializeField] private bool reloaded = true;
+    [SerializeField] private Transform aimDirection;
     private bool readyToFire = true;
     private Coroutine coroutine;
     private float SPS{
@@ -47,7 +49,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, transform.position, transform.forward, projectileSpeed);
+        GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, range,transform.position, aimDirection.forward, projectileSpeed);
         currentMag--;
         
         if (currentMag != 0)

@@ -9,13 +9,13 @@ public class PlayerController : GameEntity {
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private Transform playerTransform;
     private float defaultPlayerSpeed;
     private bool aimed;
     private float xRotation;
     private CinemachineVirtualCamera virtualCamera;
     private Transform playerCamParent;
     private Vector3 moveDirection;
+    private Weapon weapon;
     
     //Serialized Variables
     [SerializeField]private float emuWalkSpeed = 1.12f;//TOP EMU SPEED 31MPH
@@ -34,10 +34,10 @@ public class PlayerController : GameEntity {
         speed = emuWalkSpeed;
         health = startingPlayerHealth;
         controller = GetComponent<CharacterController>();
-        playerTransform = transform;
         defaultPlayerSpeed = speed;
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
+        weapon = GetComponent<Weapon>();
         
         //Cursor settings
         Cursor.lockState = CursorLockMode.Locked;
@@ -47,6 +47,11 @@ public class PlayerController : GameEntity {
     private void Update() {
         Movement();
         Rotate();
+
+        if(Input.GetMouseButton(0))
+        {
+            weapon.Shoot();
+        }
     }
     
     
@@ -62,8 +67,8 @@ public class PlayerController : GameEntity {
         var cameraRight = cameraPlayer.transform.right;
         cameraForward.y = 0f; // Remove vertical component for horizontal movement
         cameraRight.y = 0f; // Remove vertical component for horizontal movement
-        cameraForward.Normalize();
-        cameraRight.Normalize();
+       /* cameraForward.Normalize();
+        cameraRight.Normalize();*/
     
         moveDirection = cameraForward * Input.GetAxisRaw("Vertical") + cameraRight * Input.GetAxisRaw("Horizontal");
 
@@ -110,7 +115,7 @@ public class PlayerController : GameEntity {
     /// </summary>
     private void Rotate() {
         // Get the current rotation of the camera
-        Quaternion cameraRotation;
+       // Quaternion cameraRotation;
         Quaternion targetRotation;
         
         //Rotates based on horizontal input

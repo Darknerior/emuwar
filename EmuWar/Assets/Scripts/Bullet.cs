@@ -7,11 +7,12 @@ public class Bullet : MonoBehaviour , IPoolable
     private Rigidbody rb;
     private Weapon weapon;
     private LayerMask mask;
-    [SerializeField] private float range;
+    private float range;
     [SerializeField] private float timeOut;
     public int damage = 1;
     private Vector3 startPos;
     private float clock;
+
 
     public void Awake()
     {
@@ -29,16 +30,18 @@ public class Bullet : MonoBehaviour , IPoolable
     /// <param name="position"></param>
     /// <param name="forwardPos"></param>
     /// <param name="speed"></param>
-    public void SetFactors(Weapon parent, int damage,Vector3 position, Vector3 forwardPos, float speed)
+    public void SetFactors(Weapon parent, int damage, float range ,Vector3 position, Vector3 forwardPos, float speed)
     {
         weapon = parent;
         this.damage = damage;
         transform.position = position;
         transform.forward = forwardPos;
-        mask = new LayerMask();
-        mask.value = weapon.gameObject.layer;
+        this.range = range;
+        mask = (LayerMask)parent.gameObject.layer;
+        this.gameObject.layer = mask;
         gameObject.SetActive(true);
-        rb.AddRelativeForce(this.transform.forward * speed, ForceMode.Impulse);
+        //rb.AddRelativeForce(forwardPos * speed, ForceMode.Impulse);
+        rb.AddForce(forwardPos * speed, ForceMode.Impulse);
     }
 
     private void OnEnable()
@@ -62,16 +65,14 @@ public class Bullet : MonoBehaviour , IPoolable
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.layer == mask.value)
+        if (other.gameObject.layer == mask)
         {
             return;
         }
         if (other.gameObject.TryGetComponent(out IHaveHealth health))
         {
-            Debug.Log($"Collision with {other.gameObject.name}");
             health.TakeDamage(damage);
         }
-
         ReturnToPool();
     }
 
