@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Interfaces;
 using UnityEngine;
 
@@ -10,7 +12,9 @@ public class GameEntity : MonoBehaviour, IDamageable
     protected float dmg;
     public float speed;
     protected float maxHealth;
-    
+
+
+
     /// <summary>
     /// Subtracts damage from health
     /// </summary>
@@ -19,6 +23,7 @@ public class GameEntity : MonoBehaviour, IDamageable
         health -= damage;
         CheckHealth();
     }
+    
 
     private void CheckHealth() {
         if(health <= 0)Die();
@@ -50,7 +55,7 @@ public class GameEntity : MonoBehaviour, IDamageable
     /// <summary>
     /// Death of entity, can be overridden for specific needs.
     /// </summary>
-    protected void Die() {
+    private void Die() {
         Destroy(gameObject);
     }
 }

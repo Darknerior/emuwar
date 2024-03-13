@@ -64,7 +64,6 @@ public class Bullet : MonoBehaviour , IPoolable
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.layer == mask)
         {
             return;

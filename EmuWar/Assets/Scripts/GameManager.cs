@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,7 +9,9 @@ public class GameManager : Singleton<GameManager>
 
     [DoNotSerialize] public ObjectPooler<GameObject> Pool;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject pauseMenu;
     private bool gameIsPaused = false;
+    public GameObject player;
 
     public void Awake()
     {
@@ -19,7 +22,7 @@ public class GameManager : Singleton<GameManager>
     public void Start()
     {
         // Find the player GameObject from the scene
-        var player = GameObject.FindGameObjectWithTag("Player");
+        if(player == null)player = GameObject.FindGameObjectWithTag("Player");
 
         // Get all instantiated NPC prefabs in the scene
         var npcs = FindObjectsOfType<EmuNPC>();
@@ -37,14 +40,23 @@ public class GameManager : Singleton<GameManager>
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape)  )
+        {
+            PauseGame();
+        }
+    }
+
     /// <summary>
     /// Pause or unpause the game. Assign this to any button or UIElement you want to control the pause state.
     /// </summary>
-    public void PauseGame() 
+    public void PauseGame()
     {
         gameIsPaused = !gameIsPaused;
         ChangeFocus();
-        Time.timeScale = gameIsPaused ?  0.0f : 1.0f;
+        Time.timeScale = gameIsPaused ? 0f : 1f; 
+        pauseMenu.SetActive(gameIsPaused);
     }
 
     /// <summary>

@@ -12,4 +12,10 @@ namespace Interfaces
         void ReturnToPool();
     }
     
+    public interface IInteractable
+    {
+        void Interact();
+        string GetText();
+    }
+    
 }

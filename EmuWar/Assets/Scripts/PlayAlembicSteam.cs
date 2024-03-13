@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Formats.Alembic.Importer;
-using UnityEngine.Playables; 
 
 public class PlayAlembicSteam : MonoBehaviour
 {
@@ -16,6 +15,6 @@ public class PlayAlembicSteam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        alembicPlayer.CurrentTime = Time.time;
+        alembicPlayer.CurrentTime = Time.timeSinceLevelLoad;
     }
 }

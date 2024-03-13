@@ -8,8 +8,13 @@ public class OptionsMenu : MonoBehaviour
     public Toggle fullscreenToggle;
     public Slider volumeSlider;
 
-    void Start()
-    {
+    private void Start() {
+        if (audioMixer == null) {
+            var audioMixers = FindObjectsOfType<AudioMixer>();
+            if (audioMixers.Length > 0)audioMixer = audioMixers[0];
+            else Debug.Log("No audio mixer found");
+        }
+        
         // Set fullscreen toggle based on current screen mode
         fullscreenToggle.isOn = Screen.fullScreen;
 

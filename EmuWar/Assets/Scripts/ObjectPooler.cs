@@ -72,23 +72,32 @@ public class ObjectPooler<T> where T : UnityEngine.Object
     /// <returns></returns>
     public GameObject Get(ObjectList objectType, bool resizable = false)
     {
-        foreach(GameObject obj in GamePool[objectType])
+        try
         {
-            if (!obj.activeInHierarchy)
+            foreach (GameObject obj in GamePool[objectType])
             {
-                return obj;
+                if (!obj.activeInHierarchy)
+                {
+                    return obj;
+                }
             }
+            if (resizable)
+            {
+                GameObject extraObj = GameObject.Instantiate(referencePool[objectType]);
+                extraObj.SetActive(false);
+                GamePool[objectType].Add(extraObj);
+                return extraObj;
+            }
+            
         }
-
-        if (resizable)
+        catch 
         {
-            GameObject extraObj = GameObject.Instantiate(referencePool[objectType]);
-            extraObj.SetActive(false);
-            GamePool[objectType].Add(extraObj);
-            return extraObj;
+            
         }
 
         return null;
+
+       
     }
 
     /// <summary>

@@ -16,12 +16,6 @@ public class EmuNPC : GameEntity
         speed = moveSpeed;
     }
     
-    public void Damage(float damage){
-        TakeDamage(damage); // Call base class method
-        if (health > emuNPCMaxHealth) health = emuNPCMaxHealth;//Ensure health does no go abovemax
-        else if(health <= 0)Die();//Die 
-    }
-    
     private void Update() {
         Movement();
     }
@@ -30,7 +24,7 @@ public class EmuNPC : GameEntity
         if (player == null)return;
 
         // Calculate the distance between NPC and player
-        var distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        var distanceToPlayer = Vector3.Distance(transform.position, new Vector3(player.transform.position.x, 0, player.transform.position.z));
         var targetDirection = (player.transform.position - transform.position).normalized;
         var moveDirection = Vector3.RotateTowards(transform.forward, targetDirection, rotationSpeed * Time.deltaTime, 0f);
         

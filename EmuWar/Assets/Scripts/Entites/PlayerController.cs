@@ -31,6 +31,7 @@ public class PlayerController : GameEntity {
     [SerializeField]private GameObject vCamera;
     [SerializeField]private float camWpClamp = 30f;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    public bool inVehicle;
 
     private void Start(){
         //assign vars
@@ -44,24 +45,23 @@ public class PlayerController : GameEntity {
         weapon = GetComponent<Weapon>();
         animator = GetComponentInChildren<Animator>();
         
-        //Cursor settings
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
     
     private void Update() {
+        if (inVehicle) return; 
         Movement();
         Rotate();
         Animation();
 
         if(Input.GetMouseButton(0))
         {
-            weapon.Shoot();
+           // weapon.Shoot();
         }
-
         
     }
     
+    
+
     /// <summary>
     /// Player Animation
     /// </summary>
@@ -69,6 +69,8 @@ public class PlayerController : GameEntity {
         animator.SetBool(IsWalking, moveDirection != new Vector3(0, 0, 0));
         animator.speed = speed / emuWalkSpeed;
     }
+    
+    
 
 
     /// <summary>
@@ -154,10 +156,13 @@ public class PlayerController : GameEntity {
         else {
             xRotation = 0;
             // Calculate the target rotation for the player to face the direction of the camera
-            targetRotation =  Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+            if (moveDirection.normalized != new Vector3(0, 0, 0)) {
+                targetRotation =  Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+                // Lerp the player's rotation towards the target rotation when moving
+                if (moveDirection != Vector3.zero)transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            }
         
-            // Lerp the player's rotation towards the target rotation when moving
-            if (moveDirection != Vector3.zero)transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            
             
             //Revert camera to original parent
             cameraPlayer.transform.SetParent(playerCamParent);
