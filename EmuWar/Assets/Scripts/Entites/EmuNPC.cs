@@ -4,6 +4,7 @@ public class EmuNPC : GameEntity
 {
     public GameObject player;
     private bool moveTowardPlayer = false;
+    private bool caged = true;
     [SerializeField]private float emuNPCStartHealth = 100f;
     [SerializeField]private float emuNPCMaxHealth = 100f;
     [SerializeField]private float targetDistance = 5f;
@@ -17,6 +18,11 @@ public class EmuNPC : GameEntity
     }
     
     private void Update() {
+        if (caged)
+        {
+            Idle();
+            return;
+        }
         Movement();
     }
 
@@ -36,10 +42,29 @@ public class EmuNPC : GameEntity
             transform.rotation = Quaternion.LookRotation(moveDirection);
             transform.position +=  moveSpeed * Time.deltaTime * transform.forward ;
         }
-        else { 
-            //idle movement
-            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+        else
+        {
+            Idle();
         }
         
+    }
+    
+    
+    
+    /// <summary>
+    ///Idle movement
+    /// </summary>
+    private void Idle()
+    {
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+    }
+    
+    /// <summary>
+    ///Releases the emu from the confines of prison
+    /// </summary>
+    public void Release()
+    {
+        caged = false;
+        gameObject.transform.SetParent(null);
     }
 }

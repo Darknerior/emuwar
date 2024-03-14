@@ -1,10 +1,8 @@
-using System;
-using System.Net;
 using Interfaces;
 using UnityEngine;
 
 /// <summary>
-/// Vehicle controller usingcharacter controller
+/// Vehicle controller using character controller
 /// </summary>
 public class VehicleController : GameEntity, IInteractable
 {

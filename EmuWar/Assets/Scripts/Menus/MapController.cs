@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MapController : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class MapController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private bool isDragging = false;
     private Vector2 dragStartPosition;
@@ -54,9 +54,11 @@ public class MapController : MonoBehaviour, IPointerDownHandler, IDragHandler
     
     public void OnDisable()
     {
+        if(mapCamera == null)return;
         mapCamera.transform.position = cameraOrgPosition;
         mapCamera.transform.rotation = cameraOrgRotation;
         camera.orthographicSize = cameraDistanceOriginal;
+        
     }
 
     
