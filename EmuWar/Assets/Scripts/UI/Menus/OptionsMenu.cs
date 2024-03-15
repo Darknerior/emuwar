@@ -22,14 +22,13 @@ public class OptionsMenu : MonoBehaviour
         volumeSlider.value = PlayerPrefs.GetFloat("Volume", 0.5f);
     }
 
-    public void SetVolume(float volume)
-    {
-        audioMixer.SetFloat("Volume", Mathf.Log10(volume) * 20);
+    public void SetVolume() {
+        var volume = volumeSlider.value;
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("Volume", volume);
     }
 
-    public void SetFullscreen(bool isFullscreen)
-    {
-        Screen.fullScreen = isFullscreen;
+    public void SetFullscreen() {
+        Screen.fullScreen = fullscreenToggle.isOn;
     }
 }

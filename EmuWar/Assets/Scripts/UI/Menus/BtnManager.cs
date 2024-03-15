@@ -12,6 +12,7 @@ public class BtnManager : MonoBehaviour {
     /// Loads main game scene
     /// </summary>
     public void PlayGame() {
+        SoundManager.Instance.PlayButtonClickSound();
         SceneManager.LoadScene("Main");
     }
 
@@ -19,6 +20,7 @@ public class BtnManager : MonoBehaviour {
     /// Shows additional options in main menu
     /// </summary>
     public void Options(){
+        SoundManager.Instance.PlayButtonClickSound();
         var anim = options.GetComponent<Animator>();
         if(!optionsOpen) {
             anim.SetBool("optOpen", true);
@@ -33,10 +35,9 @@ public class BtnManager : MonoBehaviour {
     /// <summary>
     /// Loads Menu Scene
     /// </summary>
-    public void LoadMenu()
-    {
+    public void LoadMenu() {
+        SoundManager.Instance.PlayButtonClickSound();
         Cursor.lockState = CursorLockMode.Confined;
-        
         SceneManager.LoadScene("MainMenu");
     }
     
@@ -44,6 +45,7 @@ public class BtnManager : MonoBehaviour {
     /// Shows additional options pause menu
     /// </summary>
     public void OptionsPause(){
+        SoundManager.Instance.PlayButtonClickSound();
         options.SetActive(!options.activeSelf);
     }
     
@@ -51,6 +53,7 @@ public class BtnManager : MonoBehaviour {
     /// Exits application
     /// </summary>
     public void QuitGame() {
+        SoundManager.Instance.PlayButtonClickSound();
         Application.Quit();
     }
 }

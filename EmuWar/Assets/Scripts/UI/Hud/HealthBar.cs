@@ -4,10 +4,9 @@ public class HealthBar : MonoBehaviour {
     private float maxWidth, newWidth, percentage;
     private RectTransform rectTransform;
     private PlayerController playerController;
-    public GameManager gameManager;
 
     void Start() {
-        playerController = gameManager.player.GetComponent<PlayerController>();
+        playerController = GameManager.Instance.player.GetComponent<PlayerController>();
         rectTransform = GetComponent<RectTransform>();
         maxWidth = rectTransform.localScale.x;
     }

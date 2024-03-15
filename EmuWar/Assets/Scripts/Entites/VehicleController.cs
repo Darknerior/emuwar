@@ -17,7 +17,6 @@ public class VehicleController : GameEntity, IInteractable
     public Transform wheel3;
     public Transform wheel4;
     public Transform seat;
-    public GameManager gameManager;
     private GameObject player;
     public bool enabled;
     [SerializeField]private KeyCode exitKey = KeyCode.LeftControl;
@@ -26,7 +25,7 @@ public class VehicleController : GameEntity, IInteractable
     {
         speed = vehSpeed;
         health = vehHealth;
-        player = gameManager.player;
+        player = GameManager.Instance.player;
         
     }
 

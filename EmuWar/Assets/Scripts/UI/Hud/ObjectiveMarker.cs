@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class ObjectiveMarker : MonoBehaviour
 {
-    public GameManager manager;
     private Transform MinimapCam;
     private Transform Player;
     public float SmallMinimapSize;
@@ -17,7 +16,7 @@ public class ObjectiveMarker : MonoBehaviour
     Vector3 TempV3;
 
     private void Start() {
-        Player = manager.player.transform;
+        Player = GameManager.Instance.player.transform;
         foreach (Transform child in Player) {
             if (child.tag == "MapCamera")MinimapCam = child;
         }
