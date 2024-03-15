@@ -19,7 +19,7 @@ public class GameEntity : MonoBehaviour, IDamageable
     /// Subtracts damage from health
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(float damage) {
+    public virtual void TakeDamage(float damage) {
         health -= damage;
         CheckHealth();
     }
@@ -32,6 +32,7 @@ public class GameEntity : MonoBehaviour, IDamageable
     
     
     public float RemainingHealth => health;
+    public float RemainingMaxHealth => maxHealth;
 
     public void Heal(float heals) {
         TakeDamage(-heals); 
@@ -55,7 +56,10 @@ public class GameEntity : MonoBehaviour, IDamageable
     /// <summary>
     /// Death of entity, can be overridden for specific needs.
     /// </summary>
-    private void Die() {
+    protected virtual void Die() {
         Destroy(gameObject);
     }
+
+
+
 }

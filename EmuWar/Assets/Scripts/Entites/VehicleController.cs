@@ -111,4 +111,10 @@ public class VehicleController : GameEntity, IInteractable
         var keyStr = player.GetComponent<RayCastInteractor>().interactKey.ToString().ToUpper();
         return "Press <color=yellow><b>"+keyStr+"</b></color> to enter vehicle";
     }
+
+    protected override void Die()
+    {
+        ExitVehicle();
+        base.Die();
+    }
 }

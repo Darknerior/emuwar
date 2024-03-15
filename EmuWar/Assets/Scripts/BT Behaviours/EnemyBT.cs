@@ -51,9 +51,9 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
         return root;
     }
 
-    private void Awake()
+    /*private void Awake()
     {
         health = enemyHealth;
         maxHealth = health;
-    }
+    }*/
 }

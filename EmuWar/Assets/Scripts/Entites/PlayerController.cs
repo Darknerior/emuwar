@@ -29,6 +29,7 @@ public class PlayerController : GameEntity {
     [SerializeField]private Camera cameraWp;
     [SerializeField]private Camera cameraPlayer;
     [SerializeField]private GameObject vCamera;
+    [SerializeField]private GameObject healthBar;
     [SerializeField]private float camWpClamp = 30f;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     public bool inVehicle;
@@ -58,6 +59,12 @@ public class PlayerController : GameEntity {
            // weapon.Shoot();
         }
         
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        healthBar.GetComponent<HealthBar>().UpdateHealthBar();
     }
     
     
