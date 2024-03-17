@@ -36,7 +36,6 @@ public class CheckForPlayerInRange : Node
                  tree.SetData("Target", target);
                float distanceFromTarget = Vector3.Distance(target.position, _transform.position);
                isSafe = distanceFromTarget > (fovRange / 2);
-               Debug.Log($"isSafe: {isSafe}");
                 tree.SetData("Safe Distance", isSafe);
                  state = NodeState.SUCCESS;
                 return state;

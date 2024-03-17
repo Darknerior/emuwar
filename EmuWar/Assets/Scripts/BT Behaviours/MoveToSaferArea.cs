@@ -11,7 +11,6 @@ public class MoveToSaferArea : BehaviourTree.Node
     private  float speed;
     private bool finished = true;
     Coroutine moving;
-    bool beingShot;
     public MoveToSaferArea(IBehaviourTreeDependancies tree)
     {
         radius = tree.RetreatRadius;
@@ -63,7 +62,7 @@ public class MoveToSaferArea : BehaviourTree.Node
     /// <returns></returns>
     private bool StatusCheck()
     {
-        beingShot = (bool)tree.GetData("BeingShot");
+       bool beingShot = (bool)tree.GetData("BeingShot");
         bool safe = (bool)tree.GetData("Safe Distance");
         if (!beingShot && safe)
         {

@@ -17883,8 +17883,8 @@ MonoBehaviour:
     m_Bits: 64
   fovRange: 10
   localSpeed: 2
-  minimumRange: 5
-  retreatRadius: 15
+  minimumRange: 10
+  retreatRadius: 30
   enemyHealth: 100
 --- !u!114 &535918134
 MonoBehaviour:
@@ -52918,7 +52918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 29ca9e6e967eddb45bec1ccf5dd2408f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 925374969669459757, guid: 29ca9e6e967eddb45bec1ccf5dd2408f, type: 3}
       propertyPath: m_Materials.Array.data[0]

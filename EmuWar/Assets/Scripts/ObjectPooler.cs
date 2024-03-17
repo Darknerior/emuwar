@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Interfaces;
@@ -45,7 +43,6 @@ public class ObjectPooler<T> where T : UnityEngine.Object
             newObject.SetActive(false);
             list.Add( newObject );
         }
-        Debug.Log($"Added {objectType.ToString()} to the list {obj.name}");
         GamePool.Add(objectType, list);
     }
 
@@ -88,16 +85,9 @@ public class ObjectPooler<T> where T : UnityEngine.Object
                 GamePool[objectType].Add(extraObj);
                 return extraObj;
             }
-            
         }
-        catch 
-        {
-            
-        }
-
+        catch { }
         return null;
-
-       
     }
 
     /// <summary>

@@ -36,7 +36,7 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
                  new Sequence(new List<Node>
                  {
                      new CheckForPlayerInRange(this, playerMask),
-                     new CheckIfBeingShotAt(this, playerMask),
+                     new CheckIfBeingShotAt(this),
                      
                     new GoToTarget(this),
                     new BeginAttack(this),

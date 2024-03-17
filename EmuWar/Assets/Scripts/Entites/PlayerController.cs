@@ -56,7 +56,7 @@ public class PlayerController : GameEntity {
 
         if(Input.GetMouseButton(0))
         {
-           // weapon.Shoot();
+           weapon.Shoot();
         }
         
     }
