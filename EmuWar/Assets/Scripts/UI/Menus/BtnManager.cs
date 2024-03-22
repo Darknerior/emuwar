@@ -13,7 +13,7 @@ public class BtnManager : MonoBehaviour {
     /// </summary>
     public void PlayGame() {
         SoundManager.Instance.PlayButtonClickSound();
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("HeliCutScene");
     }
 
     /// <summary>
