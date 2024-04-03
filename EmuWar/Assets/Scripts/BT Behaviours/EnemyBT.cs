@@ -14,7 +14,7 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
     [SerializeField] private float retreatRadius;
     [SerializeField] private float enemyHealth;
 
-    public Animator Animator => gameObject.GetComponent<Animator>();
+    public Animator Animator => transform.Find("EMUanimated").GetComponent<Animator>();
 
     public float FOVRange => fovRange;
 

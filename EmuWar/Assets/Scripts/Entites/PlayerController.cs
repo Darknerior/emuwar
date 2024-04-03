@@ -45,7 +45,7 @@ public class PlayerController : GameEntity {
         playerCamParent = cameraPlayer.transform.parent;
         weapon = GetComponent<Weapon>();
         animator = GetComponentInChildren<Animator>();
-        
+       // transform.forward = new Vector3(0f, 90, 0);
     }
     
     private void Update() {
@@ -54,10 +54,10 @@ public class PlayerController : GameEntity {
         Rotate();
         Animation();
 
-        if(Input.GetMouseButton(0))
+   /*     if (Input.GetMouseButton(0))
         {
-           weapon.Shoot();
-        }
+            weapon.Shoot();
+        }*/
         
     }
 

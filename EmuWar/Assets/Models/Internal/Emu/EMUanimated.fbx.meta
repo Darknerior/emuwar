@@ -183,6 +183,12 @@ ModelImporter:
   - first:
       74: -1843204345448794626
     second: Armature.002|Walking
+  - first:
+      74: 7984201704143727126
+    second: Armature.002|Walking (2)
+  - first:
+      74: 4813254053538443466
+    second: Armature.002|Walking (1)
   externalObjects: {}
   materials:
     materialImportMode: 2

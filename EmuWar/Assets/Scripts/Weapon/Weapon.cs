@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform aimDirection;
     private bool readyToFire = true;
     private Coroutine coroutine;
+    private bool aimOverride;
+    private Camera cam;
     private float SPS{
         get => 1f / shotsPerSecond;
         }
@@ -25,6 +28,8 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         currentMag = magSize;
+        if(TryGetComponent(out PlayerController _)) aimOverride = true;
+        cam = aimDirection.GetComponent<Camera>();
     }
     public void Update()
     {
@@ -49,7 +54,15 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, range,transform.position, aimDirection.forward, projectileSpeed);
+        Vector3 direction = Vector3.zero;
+        if (aimOverride)
+        { 
+            var aimPos = cam.ScreenToWorldPoint(new Vector3(Screen.width/2,Screen.height/2, range + 2));
+
+            direction = (aimPos - transform.position).normalized;
+        }
+        else { direction = aimDirection.forward; }
+        GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, range,transform.position, direction, projectileSpeed);
         currentMag--;
         
         if (currentMag != 0)
