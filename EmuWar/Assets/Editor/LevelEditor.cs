@@ -1,5 +1,9 @@
 //Editor tool from advanced games engine progamming module
 
+//Disables warnings.
+//0108: Warning for hiding inherited memebers.
+//0618: Warning for obsolete method calling 
+#pragma warning disable 0108,0618
 using System;
 using System.IO;
 using UnityEngine;

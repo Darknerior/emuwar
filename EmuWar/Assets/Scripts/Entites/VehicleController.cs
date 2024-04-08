@@ -18,7 +18,7 @@ public class VehicleController : GameEntity, IInteractable
     public Transform wheel4;
     public Transform seat;
     private GameObject player;
-    public bool enabled;
+    public bool _enabled;
     [SerializeField]private KeyCode exitKey = KeyCode.LeftControl;
 
     private void Start()
@@ -31,7 +31,7 @@ public class VehicleController : GameEntity, IInteractable
 
     private void FixedUpdate()
     {
-        if(!enabled)return;
+        if(!_enabled)return;
         HandleMovement();
         HandleRotation();
         UpdateWheels();
@@ -45,7 +45,7 @@ public class VehicleController : GameEntity, IInteractable
     private void ExitVehicle() {
         player.GetComponent<PlayerController>().inVehicle = false;
         player.transform.SetParent(null);
-        enabled = false;
+        _enabled = false;
     }
     
     /// <summary>
@@ -99,7 +99,7 @@ public class VehicleController : GameEntity, IInteractable
         player.transform.position = seat.position;
         player.transform.rotation = seat.rotation;
         player.GetComponent<PlayerController>().inVehicle = true;
-        enabled = true;
+        _enabled = true;
         var keyStr = exitKey.ToString().ToUpper();
         player.GetComponent<RayCastInteractor>().UpdateInteractText("Press <color=yellow><b>"+keyStr+"</b></color> to exit vehicle");
 

@@ -10,7 +10,7 @@ public class MapController : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private Vector3 cameraOrgPosition;
     private Quaternion cameraOrgRotation;
     private GameObject mapCamera;
-    private Camera camera;
+    private new Camera camera;
     private float cameraDistanceOriginal;
     
     public float smoothSpeed = 5f;
