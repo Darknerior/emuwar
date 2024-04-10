@@ -16,7 +16,6 @@ public class PlayerController : GameEntity {
     private CinemachineVirtualCamera virtualCamera;
     private Transform playerCamParent;
     private Vector3 moveDirection;
-    private Weapon weapon;
     private Animator animator;
     
     //Serialized Variables
@@ -24,7 +23,7 @@ public class PlayerController : GameEntity {
     [SerializeField]private float maxPlayerSpeed = 13.85f;//TOP EMU SPEED 31MPH
     [SerializeField]private float playerAcceleration = 4.47f;//CHATGPT ESTIMATE
     [SerializeField]private float jumpHeight = 2.1f;//EMU JUMP HEIGHT
-    [SerializeField]private float playerRotationSpeed = 0.5f, playerSprintRotationSpeed = 2.0f,gravityValue = -9.81f, startingPlayerHealth = 100f;
+    [SerializeField] private float playerRotationSpeed = 0.5f, playerSprintRotationSpeed = 2.0f, gravityValue = -9.81f;
     [SerializeField]private KeyCode jumpKey = KeyCode.Space, sprintKey = KeyCode.LeftShift, aimkey = KeyCode.Mouse1;
     [SerializeField]private Camera cameraWp;
     [SerializeField]private Camera cameraPlayer;
@@ -37,13 +36,10 @@ public class PlayerController : GameEntity {
     private void Start(){
         //assign vars
         speed = emuWalkSpeed;
-        health = startingPlayerHealth;
-        maxHealth = health;
         controller = GetComponent<CharacterController>();
         defaultPlayerSpeed = speed;
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
-        weapon = GetComponent<Weapon>();
         animator = GetComponentInChildren<Animator>();
        // transform.forward = new Vector3(0f, 90, 0);
     }

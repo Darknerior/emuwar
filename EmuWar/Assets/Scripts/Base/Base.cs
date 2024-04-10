@@ -53,6 +53,13 @@ public class Base : MonoBehaviour
     {
         enemies.Remove(emu.gameObject);
         patrolTargets.Remove(emu.Patrol);
+        CheckIfAllEnemiesAreDefeated();
+    }
+
+    private void CheckIfAllEnemiesAreDefeated()
+    {
+        if (enemies.Count > 0) return;
+        Debug.Log("All Enemies Defeated");
     }
 
     private List<Vector3> GeneratePositions()
@@ -70,11 +77,11 @@ public class Base : MonoBehaviour
         }
     }
     
-/// <summary>
-/// Generates a vector which is a distance between the min and max values 
-/// in the x and z axis
-/// </summary>
-/// <returns></returns>
+    /// <summary>
+    /// Generates a vector which is a distance between the min and max values 
+    /// in the x and z axis
+    /// </summary>
+    /// <returns></returns>
     private Vector3 FindFirstPatrolPos(float min, float max)
     {
         //Performs an inverse pythgoras calculation.

@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour , IPoolable
     private LayerMask mask;
     private float range;
     [SerializeField] private float timeOut;
-    [SerializeField] private int damage = 1;
+    private int damage;
     private Vector3 startPos;
     private float clock;
 
@@ -25,22 +25,16 @@ public class Bullet : MonoBehaviour , IPoolable
     /// <summary>
     /// Sets initial settings for the bullet to fire, and activates the gameobject.
     /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="damage"></param>
-    /// <param name="position"></param>
-    /// <param name="forwardPos"></param>
-    /// <param name="speed"></param>
-    public void SetFactors(Weapon parent, int damage, float range ,Vector3 position, Vector3 forwardPos, float speed)
+    public void SetFactors(Weapon parent, int bulletDamage, float bulletRange ,Vector3 position, Vector3 forwardPos, float speed)
     {
         weapon = parent;
-        this.damage = damage;
-        transform.position = position;
+        damage = bulletDamage;
+        transform.position = position + forwardPos.normalized;
         transform.forward = forwardPos;
-        this.range = range;
+        range = bulletRange;
         mask = (LayerMask)parent.gameObject.layer;
-        this.gameObject.layer = mask;
+        gameObject.layer = mask;
         gameObject.SetActive(true);
-        //rb.AddRelativeForce(forwardPos * speed, ForceMode.Impulse);
         rb.AddForce(forwardPos * speed, ForceMode.Impulse);
     }
 
@@ -51,11 +45,11 @@ public class Bullet : MonoBehaviour , IPoolable
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         while (Vector3.Distance(transform.position, startPos) < range && clock < timeOut)
         {
-            clock += Time.deltaTime;
+            clock += Time.fixedDeltaTime;
             return;
         }
         
@@ -64,11 +58,8 @@ public class Bullet : MonoBehaviour , IPoolable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == mask)
-        {
-            return;
-        }
-        if (other.gameObject.TryGetComponent(out IDamageable health))
+        
+        if (other.gameObject.layer != mask && other.gameObject.TryGetComponent(out IDamageable health))
         {
             health.TakeDamage(damage);
         }

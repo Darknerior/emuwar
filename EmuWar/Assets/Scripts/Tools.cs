@@ -10,6 +10,7 @@ namespace Tools
 
     public static class Vector3Tools
     {
+
         /// <summary>
         /// Returns a Random Vector between an upper and lower limit
         /// </summary>
@@ -30,6 +31,9 @@ namespace Tools
                 Random.Range(-value.z, value.z));
 
         public static Vector3 Multiply(this Vector3 vector, Vector3 multi) => new(vector.x * multi.x, vector.y * multi.y, vector.z * multi.z);
+
+        public static void AddVector2(this ref Vector3 vector3, Vector2 vector2) => 
+                vector3 = new(vector3.x + vector2.x, vector3.y + vector2.y, vector3.z);
     }
 
     public static class FloatTools

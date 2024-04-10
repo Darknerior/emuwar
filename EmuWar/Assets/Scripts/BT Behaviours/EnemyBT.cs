@@ -10,7 +10,6 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
     [SerializeField] private float fovRange;
     [SerializeField] private float minimumRange;
     [SerializeField] private float retreatRadius;
-    [SerializeField] private float enemyHealth;
     public Patrol Patrol { get; private set; }
     private Base spawner;
     public Node ThisNode { get; private set; }
@@ -70,8 +69,9 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
 
     protected override void Die()
     {
-        spawner.RemoveEntityFromList(this);
         base.Die();
+        if (spawner == null) return;
+        spawner.RemoveEntityFromList(this);
     }
     /*private void Awake()
     {

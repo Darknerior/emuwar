@@ -8,12 +8,20 @@ using UnityEngine;
 /// </summary>
 public class GameEntity : MonoBehaviour, IDamageable
 {
-    protected float health;
+    [SerializeField]protected float health;
     protected float dmg;
     public float speed;
-    protected float maxHealth;
+    [SerializeField]protected float maxHealth;
 
+    private void Awake()
+    {
+        health = maxHealth;
+    }
 
+    private void OnEnable()
+    {
+        health = maxHealth;
+    }
 
     /// <summary>
     /// Subtracts damage from health

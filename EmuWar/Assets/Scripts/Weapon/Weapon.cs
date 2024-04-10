@@ -1,9 +1,8 @@
-using Cinemachine;
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
+using Tools;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour
 {
@@ -16,6 +15,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float shotsPerSecond;
     [SerializeField] private bool reloaded = true;
     [SerializeField] private Transform aimDirection;
+    [SerializeField] private float accuracyPercentage;
+    [SerializeField] private float maxErrorInAimRadius;
     private bool readyToFire = true;
     private Coroutine coroutine;
     private bool aimOverride;
@@ -41,6 +42,7 @@ public class Weapon : MonoBehaviour
 
 
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void Shoot()
     {
         if (!readyToFire) return;
@@ -56,12 +58,12 @@ public class Weapon : MonoBehaviour
 
         Vector3 direction = Vector3.zero;
         if (aimOverride)
-        { 
+        {
             var aimPos = cam.ScreenToWorldPoint(new Vector3(Screen.width/2,Screen.height/2, range + 2));
-
             direction = (aimPos - transform.position).normalized;
         }
         else { direction = aimDirection.forward; }
+        Accuracy(ref direction);
         GameManager.Instance.Pool.Get(ObjectList.BULLET, true).GetComponent<Bullet>().SetFactors(this, damage, range,transform.position, direction, projectileSpeed);
         currentMag--;
         
@@ -94,5 +96,24 @@ public class Weapon : MonoBehaviour
         coroutine = null;
         readyToFire = true;
     }
+/// <summary>
+/// Modifies the given vector to take accuracy paramaters into account. Should only be used on directional vectors
+/// </summary>
+/// <param name="aim"></param>
+    private void Accuracy(ref Vector3 aim)
+    {
+        var accuracy = 1f-(accuracyPercentage/100f);
+        var tempAim = Random.insideUnitCircle;
+        tempAim *= (accuracy*maxErrorInAimRadius);
+        aim.AddVector2(tempAim);
+    }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        coroutine = null;
+        readyToFire = true;
+        currentMag = magSize;
+        reloaded = true;
+    }
 }
