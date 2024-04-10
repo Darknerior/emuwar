@@ -7,8 +7,8 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 
-    [DoNotSerialize] public ObjectPooler<GameObject> Pool;
-    [SerializeField] private GameObject bullet;
+    [DoNotSerialize] public ObjectPooler Pool;
+    [SerializeField] private GameObject bullet, enemy;
     [SerializeField] private GameObject pauseMenu;
     private bool gameIsPaused = false;
     public GameObject player;
@@ -38,6 +38,7 @@ public class GameManager : Singleton<GameManager>
         }
         
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
+        Pool.CreateNewPool(ObjectList.ENEMY,enemy,5);
     }
 
     private void Update()

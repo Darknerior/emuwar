@@ -1,11 +1,10 @@
 using BehaviourTree;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GoToTarget : BehaviourTree.Node
+public class GoToTarget : Node
 {
     private BehaviourTree.Tree tree;
+    private Rigidbody rb;
     private Transform _transform;
     private Animator _animator;
     private float fovRange;
@@ -20,6 +19,7 @@ public class GoToTarget : BehaviourTree.Node
         fovRange = tree.FOVRange;
         speed = tree.Speed;
         minDistance = tree.MinimumDistance;
+        rb = tree.Rigidbody;
     }
 
 
@@ -27,12 +27,14 @@ public class GoToTarget : BehaviourTree.Node
     {
         
         Transform target = (Transform)tree.GetData("Target");
+        
         if (target == null) return NodeState.FAILED;
-        float distanceFromTarget = Vector3.Distance(target.position, _transform.position);
+        var targetPos = target.position;
+        float distanceFromTarget = Vector3.Distance(targetPos, _transform.position);
 
         if (tree.GetData("Finding Cover") != null && (bool)tree.GetData("Finding Cover"))
         {
-            _transform.LookAt(target.position);
+            _transform.LookAt(targetPos);
             _animator.SetBool("Walking", true);
             return NodeState.SUCCESS;
         }
@@ -43,8 +45,9 @@ public class GoToTarget : BehaviourTree.Node
         }
         else if (distanceFromTarget > minDistance)
         {
-            _transform.position = Vector3.MoveTowards(_transform.position, target.position, speed * Time.deltaTime);
-            _transform.LookAt(target.position);
+            
+            _transform.position = Vector3.MoveTowards(_transform.position, targetPos, speed * Time.deltaTime);
+            _transform.LookAt(targetPos);
             _animator.SetBool("Walking", true);
             state = NodeState.RUNNING;
         }
@@ -62,6 +65,7 @@ public interface IBehaviourTreeDependancies
 {
     BehaviourTree.Tree Tree { get; }
     Animator Animator { get; }
+    Rigidbody Rigidbody { get; }
     float FOVRange { get; }
     float Speed {  get; }
     Transform Transform { get; }

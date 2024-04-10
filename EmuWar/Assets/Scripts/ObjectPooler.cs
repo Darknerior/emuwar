@@ -2,16 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Interfaces;
 
-public class ObjectPooler<T> where T : UnityEngine.Object
+public class ObjectPooler
 {
-    private Dictionary<ObjectList, List<GameObject>> GamePool;
-    private Dictionary<ObjectList, GameObject> referencePool;
-
-   public ObjectPooler()
-    {
-        GamePool = new();
-        referencePool = new();
-    }
+    private Dictionary<ObjectList, List<GameObject>> GamePool = new();
+    private Dictionary<ObjectList, GameObject> referencePool = new();
+    
 
     /// <summary>
     /// Creates a new ObjectList with specified ObjectList type, and given GameObject. 
@@ -130,7 +125,8 @@ public class ObjectPooler<T> where T : UnityEngine.Object
 
 public enum ObjectList
 {
-    BULLET
+    BULLET,
+    ENEMY
 }
 
 

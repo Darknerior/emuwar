@@ -1,8 +1,7 @@
-
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Interfaces;
 
 
 namespace BehaviourTree
@@ -10,12 +9,13 @@ namespace BehaviourTree
     /// <summary>
     /// Base Class for Behaviour tree. This is where the root node for the tree begins.
     /// </summary>
-    public abstract class Tree : MonoBehaviour
+    public abstract class Tree : GameEntity,IPoolable
     {
         private Node root = null;
         private Dictionary<string, object> sharedData = new();
+        private IPoolable poolableImplementation;
 
-        protected void Start()
+        protected void Awake()
         {
             root = SetUpTree();
         }
@@ -54,6 +54,16 @@ namespace BehaviourTree
         public bool ClearData(string key)
         {
               return  sharedData.Remove(key);
+        }
+
+        public void ReturnToPool()
+        {
+            gameObject.SetActive(false);
+        }
+
+        protected override void Die()
+        {
+            ReturnToPool();
         }
     }
 }

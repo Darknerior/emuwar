@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -23,7 +26,21 @@ namespace BehaviourTree {
         public Node parent;
         protected List<Node> children = new();
 
-        
+        public List<Node> Children => children;
+
+        public T NodeType<T>() where T : Node
+        {
+            foreach (var child in children)
+            {
+                if (child.GetType() == typeof(T))
+                {
+                    var thing = child as T;
+                    return thing;
+                }
+            }
+
+            return null;
+        }
 
         public Node() 
         {
@@ -44,7 +61,6 @@ namespace BehaviourTree {
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILED;
-
-      
+        
     } 
 }

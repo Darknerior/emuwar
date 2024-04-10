@@ -132,51 +132,59 @@ public class PlayerController : GameEntity {
         controller.Move(playerVelocity * Time.deltaTime);
 
     }
-    
+
     /// <summary>
     /// Rotation for the controller
     /// </summary>
-    private void Rotate() {
+    private void Rotate()
+    {
         // Get the current rotation of the camera
-       // Quaternion cameraRotation;
+        // Quaternion cameraRotation;
         Quaternion targetRotation;
-        
+
         //Rotates based on horizontal input
         var rotateSpeed = speed > defaultPlayerSpeed ? playerSprintRotationSpeed : playerRotationSpeed;
         // Rotates based on mouse input when aimed
-        if (aimed) {
+        if (aimed)
+        {
             // Get mouse input for rotation
             var mouseX = Input.GetAxis("Mouse X") * rotateSpeed;
             var mouseY = Input.GetAxis("Mouse Y") * rotateSpeed;
-            
+
             //Apply clamped vertical local rotation to the weapon camera and horizontal rotation to the player.
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -camWpClamp, camWpClamp);
-            cameraWp.transform.localRotation = Quaternion.Euler(xRotation,0f , 0f);
+            cameraWp.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
-            
+
             //Set camera parent to this transform so it stays in the same relative position
             cameraPlayer.transform.SetParent(transform);
 
-                
+
         }
-        else {
+        else
+        {
             xRotation = 0;
             // Calculate the target rotation for the player to face the direction of the camera
-            if (moveDirection.normalized != new Vector3(0, 0, 0)) {
-                targetRotation =  Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+            if (moveDirection.normalized != new Vector3(0, 0, 0))
+            {
+                targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
                 // Lerp the player's rotation towards the target rotation when moving
-                if (moveDirection != Vector3.zero)transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+                if (moveDirection != Vector3.zero)
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
-        
-            
-            
+
+
+
             //Revert camera to original parent
             cameraPlayer.transform.SetParent(playerCamParent);
 
         }
-        
-       
+    }
+
+    protected override void Die()
+    {
+        gameObject.SetActive(false);
     }
     
 
