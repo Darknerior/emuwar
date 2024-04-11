@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Button manager using onclick functions
 /// </summary>
+[AddComponentMenu(" Game Scripts / UI / Menu / Button Manager",0)]
 public class BtnManager : MonoBehaviour {
     [SerializeField] GameObject options;
     private bool optionsOpen = false;

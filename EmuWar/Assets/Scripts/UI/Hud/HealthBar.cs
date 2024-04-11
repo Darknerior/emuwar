@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[AddComponentMenu(" Game Scripts / UI / HUD / HealthBar",0)]
 public class HealthBar : MonoBehaviour {
     private float maxWidth, newWidth, percentage;
     private RectTransform rectTransform;

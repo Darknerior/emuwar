@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using BehaviourTree;
 using JetBrains.Annotations;
+using Tools;
 using UnityEngine;
 using Tree = BehaviourTree.Tree;
 
 public class Patrol : Node
 {
     private Transform _agent;
+    private Transform target;
     private List<Vector3> targetPositions = new();
     private Animator anim;
     private float speed;
@@ -18,6 +20,8 @@ public class Patrol : Node
     private float waitCounter = 0f;
     private bool isWaiting = false;
     private Base @base;
+    private bool targetNotNull;
+    private float distance;
     public Vector3 Position => _agent.position;
     public Patrol(IBehaviourTreeDependancies tree,Vector3[] positions)
     {
@@ -26,10 +30,22 @@ public class Patrol : Node
         speed = tree.Speed;
         rb = tree.Rigidbody;
         this.tree = tree;
+        distance = 0.25f;
+    }
+    public Patrol(IBehaviourTreeDependancies tree,Transform position, float followDistance)
+    {
+        _agent = tree.Transform;
+        anim = tree.Animator;
+        speed = tree.Speed;
+        rb = tree.Rigidbody;
+        this.tree = tree;
+        target = position;
+        distance = followDistance;
+        targetPositions.Add(position.position);
+        targetNotNull = true;
     }
     public override NodeState Evaluate()
     {
-        var currentpos = _agent.position;
         Vector3 movement = Vector3.zero;
         if (targetPositions.Count == 0)
         {
@@ -41,19 +57,25 @@ public class Patrol : Node
             if(waitCounter >= waitTime) 
             { 
                 isWaiting = false;
-                anim.SetBool("Walking", true);
+                
+                if (!targetNotNull) anim.SetBool("Walking", true);
             }
         }
         else
         {
             Vector3 position = targetPositions[currentIndex];
-            Vector3 fixedPosition = new Vector3(position.x, 0, position.z);
-            Vector3 fixedEmuPos = new Vector3(_agent.position.x, 0, _agent.position.z);
-            if(Vector3.Distance(fixedEmuPos, fixedPosition) <= 0.25f)
+            if (targetNotNull) position = target.position;
+            
+            //ChangeAxisValue will return position, and _agent.position with the y axis set to zero.
+            //This mitigates any elevation changes for the distance check
+            Vector3 fixedPosition = position.ChangeAxisValue(Vector3.up, 0f);
+            Vector3 fixedEmuPos = _agent.position.ChangeAxisValue(Vector3.up,0f);
+            
+            if(Vector3.Distance(fixedEmuPos, fixedPosition) <= distance)
             {
                 waitCounter = 0f;
                 isWaiting = true;
-                anim.SetBool("Walking", false);
+                if (!targetNotNull) anim.SetBool("Walking", false);
                 currentIndex = (currentIndex + 1) % targetPositions.Count;
             }
             else
@@ -69,12 +91,6 @@ public class Patrol : Node
 
         state = NodeState.RUNNING;
         return state;
-    }
-
-    private void Jump()
-    {
-        if (rb.velocity.y == 0)
-            rb.velocity += new Vector3(0, 10, 0);
     }
     public void PatrolTargets(List<Vector3> positions)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,7 +32,36 @@ namespace Tools
                 Random.Range(-value.z, value.z));
 
         public static Vector3 Multiply(this Vector3 vector, Vector3 multi) => new(vector.x * multi.x, vector.y * multi.y, vector.z * multi.z);
+        /// <summary>
+        /// Returns a Vector equal to the one given, with changes on the specified axes. Original Vector will not be changed.
+        /// </summary>
+        /// <param name="vector3">Vector to change</param>
+        /// <param name="reference">Vectors which should be changed. Any axis not a zero value will be changed.</param>
+        /// <param name="newValues">New values to be applied. These should be given in order XYZ. Float values should only be given for the axes which are being altered</param>
+        /// <returns></returns>
+        public static Vector3 ChangeAxisValue(this Vector3 vector3, Vector3 reference, params float[] newValues)
+        {
+            List<float> values = newValues.ToList();
+            if (reference.x != 0)
+            {
+                vector3.x = values[0];
+                values.RemoveAt(0);
+            }
 
+            if (reference.y != 0)
+            {
+                vector3.y = values[0];
+                values.RemoveAt(0);
+            }
+
+            if (reference.z != 0)
+            {
+                vector3.z = values[0];
+                values.RemoveAt(0);
+            }
+
+            return vector3;
+        }
         public static void AddVector2(this ref Vector3 vector3, Vector2 vector2) => 
                 vector3 = new(vector3.x + vector2.x, vector3.y + vector2.y, vector3.z);
     }

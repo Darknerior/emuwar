@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// Shows a markers on the minimap to indicate the direction of the objective
 /// </summary>
+[AddComponentMenu(" Game Scripts / UI / HUD / ObjectiveMarker",1)]
 public class ObjectiveMarker : MonoBehaviour
 {
     private Transform MinimapCam;

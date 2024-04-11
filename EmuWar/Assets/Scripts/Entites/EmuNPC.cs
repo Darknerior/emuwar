@@ -1,19 +1,20 @@
 using UnityEngine;
-
+//diables unsused field warning 
+#pragma warning disable 0414
 public class EmuNPC : GameEntity
 {
     public GameObject player;
     private bool moveTowardPlayer = false;
     private bool caged = true;
-    [SerializeField]private float emuNPCStartHealth = 100f;
-    [SerializeField]private float emuNPCMaxHealth = 100f;
+    [SerializeField]private float emuNpcStartHealth = 100f;
+    [SerializeField]private float emuNpcMaxHealth = 100f;
     [SerializeField]private float targetDistance = 5f;
     [SerializeField]private float maxDistance = 20f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
     private void Start() {
-        health = emuNPCStartHealth;
+        health = emuNpcStartHealth;
         speed = moveSpeed;
     }
     

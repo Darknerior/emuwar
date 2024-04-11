@@ -8,9 +8,12 @@ public class Base : MonoBehaviour
     [SerializeField] private Vector3 enemyOffset;
     [SerializeField] private float minPatrolDistFormBase;
     [SerializeField] private float maxPatrolDistFormBase;
+    [SerializeField] private ObjectivesTextHandler ObjectivesMarkers;
     private List<GameObject> enemies = new();
     private List<Patrol> patrolTargets = new();
     private Vector3[] multiples = { new (1, 0, 1), new(1, 0, -1), new (-1, 0, -1), new (-1, 0, 1) };
+
+    private int initialCount;
     // Start is called before the first frame update
     void Awake()
     {
@@ -38,6 +41,9 @@ public class Base : MonoBehaviour
             List<Vector3> pos = new(){ positions[i % positions.Count], positions[(i + 1) % positions.Count] };
             patrolTargets[i].PatrolTargets(pos);
         }
+
+        initialCount = enemies.Count;
+        ObjectivesMarkers.EnableObjectiveBannerWithString("Defeat The Enemies!").EnableProgressMarkerWithString($"Enemies Left: {initialCount}/{initialCount}");
     }
 
     private bool PosOverlapsExistingPositions(Vector3 pos,int numberOfEnemies)
@@ -58,7 +64,13 @@ public class Base : MonoBehaviour
 
     private void CheckIfAllEnemiesAreDefeated()
     {
-        if (enemies.Count > 0) return;
+        if (enemies.Count > 0)
+        {
+            ObjectivesMarkers.DisableText(true, false).UpdateProgressText($"Enemies Left: {enemies.Count}/{initialCount}");
+            return;
+        }
+        
+        ObjectivesMarkers.DisableText();
         Debug.Log("All Enemies Defeated");
     }
 

@@ -4,37 +4,40 @@ using BehaviourTree;
 
 public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
 {
-    public Vector3[] tragetPositions;
-   // [SerializeField] private float speed = 2;
+    public Transform targetPosition;
     [SerializeField] private float fovRange = 6f;
     [SerializeField] private float minimumRange;
     [SerializeField] private float retreatRadius;
-
+    [SerializeField] private float followDistance;
+    [SerializeField] private LayerMask enemyMask;
     public Animator Animator => GetComponent<Animator>();
     public Rigidbody Rigidbody { get; private set; }
-
     public float FOVRange => fovRange;
-
     public float Speed => speed;
-
     public Transform Transform => transform;
 
     public float MinimumDistance => minimumRange;
     public BehaviourTree.Tree Tree => this;
     public float RetreatRadius => retreatRadius;
+    public float FollowDistance => followDistance;
 
     protected override Node SetUpTree()
     {
         Rigidbody = GetComponent<Rigidbody>();
         Node root = new Selector(new List<Node>
         {
-            new Sequence(new List<Node>
-            {
-              new CheckForPlayerInRange(this),
-              new GoToTarget(this)
+            new Selector( new List<Node>(){
+                    new Sequence(new List<Node>
+                    {
+                         new CheckForPlayerInRange(this,enemyMask),
+                         new CheckIfBeingShotAt(this),
+                         new GoToTarget(this),
+                         new BeginAttack(this),
+                    }),
+                  new MoveToSaferArea(this)
             }),
 
-            new Patrol(this,tragetPositions)
+            new Patrol(this,targetPosition,followDistance)
         }) ;
 
         return root;

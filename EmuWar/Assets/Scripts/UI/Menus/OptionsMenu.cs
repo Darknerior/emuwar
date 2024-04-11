@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-
+[AddComponentMenu(" Game Scripts / UI / Menu / Options Menu",2)]
 public class OptionsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;

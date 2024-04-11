@@ -35,7 +35,7 @@ public class GoToTarget : Node
         if (tree.GetData("Finding Cover") != null && (bool)tree.GetData("Finding Cover"))
         {
             _transform.LookAt(targetPos);
-            _animator.SetBool("Walking", true);
+            if(_animator != null)  _animator.SetBool("Walking", true);
             return NodeState.SUCCESS;
         }
 
@@ -48,14 +48,14 @@ public class GoToTarget : Node
             
             _transform.position = Vector3.MoveTowards(_transform.position, targetPos, speed * Time.deltaTime);
             _transform.LookAt(targetPos);
-            _animator.SetBool("Walking", true);
+            if(_animator != null) _animator.SetBool("Walking", true);
             state = NodeState.RUNNING;
         }
         else
         {
             _transform.LookAt(target.position);
             state = NodeState.SUCCESS;
-            _animator.SetBool("Walking", false);
+            if(_animator != null) _animator.SetBool("Walking", false);
         }
         return state;
     }

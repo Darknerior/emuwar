@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
     }
     public void Update()
     {
+        if(!aimOverride)return;
         if (Input.GetKey(KeyCode.F))
         {
             Shoot();

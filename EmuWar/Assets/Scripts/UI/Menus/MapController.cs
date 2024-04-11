@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+[AddComponentMenu(" Game Scripts / UI / Menu / Map Controller",1)]
 public class MapController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private bool isDragging = false;

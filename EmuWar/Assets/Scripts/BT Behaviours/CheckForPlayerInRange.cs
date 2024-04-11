@@ -8,7 +8,7 @@ public class CheckForPlayerInRange : Node
 {
    private BehaviourTree.Tree tree;
     private Transform _transform;
-    private static LayerMask enemyLayer = 1 << 6;
+    private  LayerMask enemyLayer = 1 << 6;
     private float fovRange;
     public CheckForPlayerInRange(IBehaviourTreeDependancies tree)
     {
