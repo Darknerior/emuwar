@@ -24,7 +24,7 @@ public class CheckIfBeingShotAt : BehaviourTree.Node
                 }
             }
         tree.SetData("BeingShot", danger);
-        return danger ? NodeState.FAILED : NodeState.SUCCESS;
+        return NodeState.SUCCESS;
     }
 
 }

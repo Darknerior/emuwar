@@ -43,10 +43,10 @@ public class Patrol : Node
         distance = followDistance;
         targetPositions.Add(position.position);
         targetNotNull = true;
+        waitTime = 0f;
     }
     public override NodeState Evaluate()
     {
-        Vector3 movement = Vector3.zero;
         if (targetPositions.Count == 0)
         {
             return NodeState.FAILED;
@@ -80,10 +80,11 @@ public class Patrol : Node
             }
             else
             {
-                
-                movement = Vector3.MoveTowards(_agent.position, position, speed * Time.deltaTime);
-                rb.MovePosition(movement);
-                _agent.LookAt(new Vector3(position.x,Position.y,position.z));
+                tree.Tree.SetData("Movement", position);
+                tree.Tree.SetData("LookAt",new Vector3(position.x,Position.y,position.z));
+              //  var movement = Vector3.MoveTowards(_agent.position, position, speed * Time.deltaTime);
+              //  rb.MovePosition(movement);
+              //  _agent.LookAt(new Vector3(position.x,Position.y,position.z));
             }
         }
 

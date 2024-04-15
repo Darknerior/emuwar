@@ -40,8 +40,10 @@ public class CheckForPlayerInRange : Node
                  state = NodeState.SUCCESS;
                 return state;
             }
-        tree.SetData("Safe Distance", isSafe);
-        tree.ClearData("Target");
+            
+            tree.SetData("Safe Distance", isSafe);
+            tree.ClearData("Target");
+            
 
             state = NodeState.RUNNING;
             return state;

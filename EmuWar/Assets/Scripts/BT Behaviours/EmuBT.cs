@@ -27,6 +27,7 @@ public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
         Node root = new Selector(new List<Node>
         {
             new Selector( new List<Node>(){
+                
                     new Sequence(new List<Node>
                     {
                          new CheckForPlayerInRange(this,enemyMask),
@@ -34,10 +35,14 @@ public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
                          new GoToTarget(this),
                          new BeginAttack(this),
                     }),
-                  new MoveToSaferArea(this)
+                  new MoveToSaferArea(this),
             }),
-
-            new Patrol(this,targetPosition,followDistance)
+            
+            new Sequence(new List<Node>(){
+                new Patrol(this,targetPosition,followDistance),
+                 new Flock(this, targetPosition)
+            })
+           
         }) ;
 
         return root;

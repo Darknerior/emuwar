@@ -21,6 +21,6 @@ public class BeginAttack : BehaviourTree.Node
     public override NodeState Evaluate()
     {
         weapon.Shoot();
-        return NodeState.RUNNING;
+        return NodeState.SUCCESS;
     }
 }

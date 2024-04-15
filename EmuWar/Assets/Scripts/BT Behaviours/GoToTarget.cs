@@ -49,7 +49,7 @@ public class GoToTarget : Node
             _transform.position = Vector3.MoveTowards(_transform.position, targetPos, speed * Time.deltaTime);
             _transform.LookAt(targetPos);
             if(_animator != null) _animator.SetBool("Walking", true);
-            state = NodeState.RUNNING;
+            state = NodeState.SUCCESS;
         }
         else
         {

@@ -30,12 +30,17 @@ namespace Tools
         public static Vector3 RandomVector(Vector3 value) =>
             new Vector3(Random.Range(-value.x, value.x), Random.Range(-value.y, value.y),
                 Random.Range(-value.z, value.z));
-
+        /// <summary>
+        /// Multiplies XYZ parts of two Vectors and returns the result
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="multi"></param>
+        /// <returns></returns>
         public static Vector3 Multiply(this Vector3 vector, Vector3 multi) => new(vector.x * multi.x, vector.y * multi.y, vector.z * multi.z);
         /// <summary>
         /// Returns a Vector equal to the one given, with changes on the specified axes. Original Vector will not be changed.
         /// </summary>
-        /// <param name="vector3">Vector to change</param>
+        /// <param name="vector3">this Vector</param>
         /// <param name="reference">Vectors which should be changed. Any axis not a zero value will be changed.</param>
         /// <param name="newValues">New values to be applied. These should be given in order XYZ. Float values should only be given for the axes which are being altered</param>
         /// <returns></returns>
@@ -57,13 +62,34 @@ namespace Tools
             if (reference.z != 0)
             {
                 vector3.z = values[0];
-                values.RemoveAt(0);
             }
 
             return vector3;
         }
+        
+        
+        /// <summary>
+        /// Adds the XY component of a Vector2 to the XY component of a Vector3
+        /// </summary>
+        /// <param name="vector3">this Vector</param>
+        /// <param name="vector2">Vector to be added to this one</param>
         public static void AddVector2(this ref Vector3 vector3, Vector2 vector2) => 
                 vector3 = new(vector3.x + vector2.x, vector3.y + vector2.y, vector3.z);
+        /// <summary>
+        /// Returns the sum of all vectors, divided by the number of vectors in the list
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Vector3 Average(this List<Vector3> list)
+        {
+            var sum = Vector3.zero;
+            foreach (var vector in list)
+            {
+                sum += vector;
+            }
+
+            return sum / list.Count;
+        }
     }
 
     public static class FloatTools

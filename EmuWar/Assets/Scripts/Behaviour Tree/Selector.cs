@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace BehaviourTree {
     /// <summary>
@@ -24,7 +25,7 @@ namespace BehaviourTree {
                         return state;
                     case NodeState.RUNNING:
                         state = NodeState.RUNNING;
-                        return state;
+                        continue;
                     default:
                         continue;
                 }
