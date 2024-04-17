@@ -10,9 +10,10 @@ public class GameManager : Singleton<GameManager>
     [DoNotSerialize] public ObjectPooler Pool;
     [SerializeField] private GameObject bullet, enemy;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private float timeBetweenBaseSpawns;
     private bool gameIsPaused = false;
     public GameObject player;
-
+    private BaseController Base;
     public void Awake()
     {
         Pool = new();
@@ -21,9 +22,9 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
+        Base = new BaseController(timeBetweenBaseSpawns);
         // Find the player GameObject from the scene
-        if(player == null)player = GameObject.FindGameObjectWithTag("Player");
-
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         // Get all instantiated NPC prefabs in the scene
         var npcs = FindObjectsOfType<EmuNPC>();
         var enemies = FindObjectsOfType<Enemy>();
@@ -65,8 +66,12 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void ChangeFocus()
     {
-        Cursor.lockState = gameIsPaused ? CursorLockMode.Confined : CursorLockMode.Locked; 
+        Cursor.lockState = gameIsPaused ? CursorLockMode.Confined : CursorLockMode.Locked;
     }
 
+    public void BeginRoutine(IEnumerator routine) => StartCoroutine(routine);
+    
+    public void EndRoutine(IEnumerator routine) => StopCoroutine(routine);
+    
 
 }

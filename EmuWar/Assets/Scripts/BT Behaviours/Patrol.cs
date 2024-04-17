@@ -3,6 +3,7 @@ using System.Linq;
 using BehaviourTree;
 using JetBrains.Annotations;
 using Tools;
+using Unity.VisualScripting;
 using UnityEngine;
 using Tree = BehaviourTree.Tree;
 
@@ -63,8 +64,9 @@ public class Patrol : Node
         }
         else
         {
+            var info = tree.Tree.GetData("ObjectNav");
             Vector3 position = targetPositions[currentIndex];
-            if (targetNotNull) position = target.position;
+            if (targetNotNull) position = info != null ? (Vector3)info : target.position;
             
             //ChangeAxisValue will return position, and _agent.position with the y axis set to zero.
             //This mitigates any elevation changes for the distance check
@@ -75,16 +77,29 @@ public class Patrol : Node
             {
                 waitCounter = 0f;
                 isWaiting = true;
-                if (!targetNotNull) anim.SetBool("Walking", false);
+                if (!targetNotNull)
+                {
+                    anim.SetBool("Walking", false);
+                }
+                else if(info != null)
+                {
+                    Debug.Log("Cleared Data");
+                    tree.Tree.ClearData("ObjectNav");
+                }
+
                 currentIndex = (currentIndex + 1) % targetPositions.Count;
             }
             else
             {
                 tree.Tree.SetData("Movement", position);
                 tree.Tree.SetData("LookAt",new Vector3(position.x,Position.y,position.z));
-              //  var movement = Vector3.MoveTowards(_agent.position, position, speed * Time.deltaTime);
-              //  rb.MovePosition(movement);
-              //  _agent.LookAt(new Vector3(position.x,Position.y,position.z));
+                
+                if (!targetNotNull)
+                {
+                    var movement = Vector3.MoveTowards(_agent.position, position, speed * Time.deltaTime);
+                    rb.MovePosition(movement);
+                    _agent.LookAt(new Vector3(position.x, Position.y, position.z));
+                }
             }
         }
 

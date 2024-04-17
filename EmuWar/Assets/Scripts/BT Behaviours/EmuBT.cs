@@ -40,7 +40,9 @@ public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
             
             new Sequence(new List<Node>(){
                 new Patrol(this,targetPosition,followDistance),
-                 new Flock(this, targetPosition)
+                new ObjectAvoidance(this),
+                 new Flock(this, targetPosition),
+                 
             })
            
         }) ;

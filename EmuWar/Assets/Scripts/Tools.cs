@@ -90,6 +90,20 @@ namespace Tools
 
             return sum / list.Count;
         }
+        /// <summary>
+        /// Returns Vector3.one with the sign of the provided Vector on each axis.
+        /// If axis is zero, it will be returned as zero.
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static Vector3 Sign(this Vector3 vector)
+        {
+            if (vector.x != 0)  vector.x = vector.x > 0f ? 1f : -1f;
+            if (vector.y != 0)  vector.y = vector.y > 0f ? 1f : -1f;
+            if (vector.z != 0)  vector.z = vector.z > 0f ? 1f : -1f;
+            
+            return vector;
+        }
     }
 
     public static class FloatTools
@@ -108,5 +122,7 @@ namespace Tools
             //else it should be rounded up
             value = valueDivByAmount - intValue < 0.5 ? intValue * a : (intValue + 1) * a;
         }
+
+        public static int ToInt(this float num) => (int)num;
     }
 }

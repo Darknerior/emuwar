@@ -12,7 +12,7 @@ public class Base : MonoBehaviour
     private List<GameObject> enemies = new();
     private List<Patrol> patrolTargets = new();
     private Vector3[] multiples = { new (1, 0, 1), new(1, 0, -1), new (-1, 0, -1), new (-1, 0, 1) };
-
+    private BaseController control;
     private int initialCount;
     // Start is called before the first frame update
     void Awake()
@@ -46,6 +46,11 @@ public class Base : MonoBehaviour
         ObjectivesMarkers.EnableObjectiveBannerWithString("Defeat The Enemies!").EnableProgressMarkerWithString($"Enemies Left: {initialCount}/{initialCount}");
     }
 
+    public void SetController(BaseController thing)
+    {
+        control = thing;
+    }
+
     private bool PosOverlapsExistingPositions(Vector3 pos,int numberOfEnemies)
     {
         for (int i = 0; i < numberOfEnemies; i++)
@@ -71,7 +76,7 @@ public class Base : MonoBehaviour
         }
         
         ObjectivesMarkers.DisableText();
-        Debug.Log("All Enemies Defeated");
+        control.StartCountdown();
     }
 
     private List<Vector3> GeneratePositions()
