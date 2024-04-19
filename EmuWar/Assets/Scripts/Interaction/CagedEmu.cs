@@ -6,8 +6,7 @@ public class CagedEmu : MonoBehaviour, IInteractable
     [SerializeField]private KeyCode exitKey = KeyCode.E;
     void ReleaseEmu()
     {
-        gameObject.GetComponentInChildren<EmuNPC>().Release();
-        Destroy(gameObject.transform.parent.gameObject);
+        if(gameObject.GetComponentInChildren<ICagedEmu>().Release()) Destroy(gameObject.transform.parent.gameObject);
     }
 
     public void Interact()

@@ -1,11 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Interfaces;
+using Tools;
+using UnityEditor;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : GameEntity {
+public class PlayerController : GameEntity ,IStatOwner{
     //Controller Local variables
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -30,10 +35,45 @@ public class PlayerController : GameEntity {
     [SerializeField]private GameObject vCamera;
     [SerializeField]private GameObject healthBar;
     [SerializeField]private float camWpClamp = 30f;
+    [SerializeField] private int maxArmySize, healthIncrease, armySizeIncrease;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     public bool inVehicle;
+    private int army;
+    public int Health => maxHealth.ToInt();
+    public int MaxArmySize => maxArmySize;
+    public int MaxHealthIncrease => healthIncrease;
+    public int ArmySizeIncrease => armySizeIncrease;
+    public int ArmySize => army;
 
-    private void Start(){
+    public void AddToArmy()
+    {
+        army++;
+        Debug.Log($"Army size now {army} of {maxArmySize}");
+    }
+
+    public void RemoveFromArmy()
+    {
+        army--;
+        Debug.Log($"Army size now {army} of {maxArmySize}");
+    }
+
+    public void UpdateArmy(int newMaxArmy)
+    {
+        maxArmySize = newMaxArmy;
+        Debug.Log($"Max Army now {maxArmySize}");
+    }
+
+    public void UpdateHealth(int newHealth)
+    {
+        maxHealth = newHealth;
+        health = maxHealth;
+        Debug.Log($"Max Health now {maxHealth}");
+        healthBar.GetComponent<HealthBar>().UpdateHealthBar();
+    }
+
+    //Start can be called as a coroutine. In cases where references are being called to instances that havent been created yet, this is helpful 
+    //for delaying the call until after the instance has been constructed.
+   private IEnumerator Start(){
         //assign vars
         speed = emuWalkSpeed;
         controller = GetComponent<CharacterController>();
@@ -41,10 +81,14 @@ public class PlayerController : GameEntity {
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
         animator = GetComponentInChildren<Animator>();
-       // transform.forward = new Vector3(0f, 90, 0);
+        
+        yield return new WaitForEndOfFrame();
+        gameObject.GetComponentInChildren<StatBooster>().SetUp(this);
     }
     
-    private void Update() {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B)) EditorApplication.isPaused = true;
         if (inVehicle) return; 
         Movement();
         Rotate();
@@ -103,15 +147,15 @@ public class PlayerController : GameEntity {
             cameraWp.transform.localRotation = Quaternion.identity;
             
             cameraWp.gameObject.SetActive(true);
-            cameraPlayer.gameObject.SetActive(false);
+           // cameraPlayer.gameObject.SetActive(false);
             vCamera.SetActive(false);
             aimed = true;
         }
         else if (Input.GetKeyUp(aimkey)) {
-            vCamera.SetActive(true);
+           vCamera.SetActive(true);
             virtualCamera.ForceCameraPosition(cameraPlayer.transform.position, cameraPlayer.transform.rotation);
-            cameraPlayer.gameObject.SetActive(true);
-            cameraWp.gameObject.SetActive(false);
+            //cameraPlayer.gameObject.SetActive(true);
+           cameraWp.gameObject.SetActive(false);
             aimed = false;
         }
         
@@ -154,8 +198,9 @@ public class PlayerController : GameEntity {
             transform.Rotate(Vector3.up * mouseX);
 
             //Set camera parent to this transform so it stays in the same relative position
-            cameraPlayer.transform.SetParent(transform);
-
+            cameraPlayer.transform.SetParent(cameraWp.transform);
+            cameraPlayer.transform.localPosition = Vector3.zero;
+            cameraPlayer.transform.localRotation = Quaternion.identity;
 
         }
         else
@@ -182,8 +227,7 @@ public class PlayerController : GameEntity {
     {
         gameObject.SetActive(false);
     }
-    
 
 
-
+   
 }

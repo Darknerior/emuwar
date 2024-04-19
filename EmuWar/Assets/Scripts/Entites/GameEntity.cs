@@ -33,6 +33,7 @@ public class GameEntity : MonoBehaviour, IDamageable
     }
     
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private void CheckHealth() {
         if(health <= 0)Die();
         if(health > maxHealth)health = maxHealth;

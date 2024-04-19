@@ -13,12 +13,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float timeBetweenBaseSpawns;
     private bool gameIsPaused = false;
     public GameObject player;
-    private BaseController Base;
+    public BaseController Base { get; private set; }
     public void Awake()
     {
         Pool = new();
         Instance = this;
     }
+    public delegate void GameIsPaused(bool isPaused);
+    private event GameIsPaused OnPaused;
 
     public void Start()
     {
@@ -59,6 +61,7 @@ public class GameManager : Singleton<GameManager>
         ChangeFocus();
         Time.timeScale = gameIsPaused ? 0f : 1f; 
         pauseMenu.SetActive(gameIsPaused);
+        OnPaused?.Invoke(gameIsPaused);
     }
 
     /// <summary>
@@ -72,6 +75,9 @@ public class GameManager : Singleton<GameManager>
     public void BeginRoutine(IEnumerator routine) => StartCoroutine(routine);
     
     public void EndRoutine(IEnumerator routine) => StopCoroutine(routine);
-    
+
+    public void Subscribe(GameIsPaused action) => OnPaused += action;
+    public void UnSubscribe(GameIsPaused action) => OnPaused -= action;
+
 
 }

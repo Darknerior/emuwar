@@ -17,5 +17,33 @@ namespace Interfaces
         void Interact();
         string GetText();
     }
+
+    public interface IStatOwner
+    {
+        int Health { get; }
+        int MaxArmySize { get; }
+        int MaxHealthIncrease { get; }
+        int ArmySizeIncrease { get; }
+        int ArmySize { get; }
+        void AddToArmy();
+        void RemoveFromArmy();
+        void UpdateArmy(int army);
+        void UpdateHealth(int health);
+    }
+
+    public interface IUpHealth
+    {
+       void UpHealth();
+    }
+
+    public interface IUpArmySize
+    {
+        void UpArmy();
+    }
+
+    public interface ICagedEmu
+    {
+        bool Release();
+    }
     
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Tools;
 public class Base : MonoBehaviour
 {
+    [SerializeField] private BaseType type;
     [SerializeField] private int amountOfEnemiesOnEnable;
     [SerializeField] private Vector3 enemyOffset;
     [SerializeField] private float minPatrolDistFormBase;
@@ -19,7 +20,7 @@ public class Base : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
+    
     private void OnEnable()
     {
         for (int i = 0; i < amountOfEnemiesOnEnable; i++)
@@ -76,7 +77,8 @@ public class Base : MonoBehaviour
         }
         
         ObjectivesMarkers.DisableText();
-        control.StartCountdown();
+        gameObject.SetActive(false);
+        control.StartCountdown(type);
     }
 
     private List<Vector3> GeneratePositions()
@@ -93,6 +95,7 @@ public class Base : MonoBehaviour
             patrol.DrawGizmos();
         }
     }
+    
     
     /// <summary>
     /// Generates a vector which is a distance between the min and max values 

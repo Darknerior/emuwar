@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Interfaces;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 namespace BehaviourTree
 {
     /// <summary>
     /// Base Class for Behaviour tree. This is where the root node for the tree begins.
     /// </summary>
-    public abstract class Tree : GameEntity,IPoolable
+    public abstract class Tree : GameEntity,IPoolable,ICagedEmu
     {
         private Node root = null;
         private Dictionary<string, object> sharedData = new();
+        private bool isCaged;
+        private IStatOwner statOwner;
 
         protected void Awake()
         {
             root = SetUpTree();
         }
 
+        protected void Start()
+        {
+            if (gameObject.GetComponentInParent(typeof(CagedEmu))) isCaged = true;
+        }
+
         private void Update()
         {
-            if (root == null) return;
+            if (root == null || isCaged) return;
             root.Evaluate();
         }
 
@@ -84,7 +93,29 @@ namespace BehaviourTree
 
         protected override void Die()
         {
+            statOwner?.RemoveFromArmy();
             ReturnToPool();
+        }
+
+        public bool Release()
+        {
+            Collider[] results = new Collider[10];
+            int resultLen = Physics.OverlapSphereNonAlloc(transform.position, 3, results);
+            if(resultLen == 0) return false;
+            for (int i = 0; i < resultLen; i++)
+            {
+                if (results[i].gameObject.TryGetComponent(out IStatOwner stats) && stats.ArmySize < stats.MaxArmySize)
+                {
+                    statOwner = stats;
+                    statOwner?.AddToArmy();
+                    break;
+                }
+                if(i == resultLen - 1) return false;
+            }
+            
+            isCaged = false;
+            gameObject.transform.SetParent(null);
+            return true;
         }
     }
 }

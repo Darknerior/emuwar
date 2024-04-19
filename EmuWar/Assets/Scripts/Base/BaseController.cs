@@ -7,6 +7,8 @@ public class BaseController
 {
     List<Base> bases = new List<Base>();
     private float waitTime;
+    private StatBooster stats;
+    public Base ActiveBase { get; private set; }
    public BaseController(float timeBetweenBaseSpawn)
    {
         bases = GameObject.FindObjectsOfType(typeof(Base), true).Cast<Base>().ToList();
@@ -14,9 +16,8 @@ public class BaseController
         {
             @base.SetController(this);
         }
-
         waitTime = timeBetweenBaseSpawn;
-        StartCountdown();
+        StartCountdown(BaseType.NONE);
    }
 
     private void SetNewBase()
@@ -34,11 +35,22 @@ public class BaseController
         while (obj.gameObject.activeInHierarchy);
        
         obj.gameObject.SetActive(true);
+        ActiveBase = obj;
     }
 
-    public void StartCountdown()
+    public void StartCountdown(BaseType type)
     {
         GameManager.Instance.BeginRoutine(NextBase());
+        switch (type)
+        {
+            case BaseType.Army:
+                stats.UpArmy();
+                break;
+            case BaseType.Farm:
+                stats.UpHealth();
+                break;
+            default: return;
+        }
     }
 
     private IEnumerator NextBase()
@@ -47,4 +59,16 @@ public class BaseController
         
         SetNewBase();
     }
+
+    public void SetStats(StatBooster booster)
+    {
+        stats = booster;
+    }
+}
+
+public enum BaseType
+{
+    NONE = -1,
+    Farm,
+    Army
 }

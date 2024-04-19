@@ -1,7 +1,8 @@
+using Interfaces;
 using UnityEngine;
 //diables unsused field warning 
 #pragma warning disable 0414
-public class EmuNPC : GameEntity
+public class EmuNPC : GameEntity,ICagedEmu
 {
     public GameObject player;
     private bool moveTowardPlayer = false;
@@ -63,9 +64,10 @@ public class EmuNPC : GameEntity
     /// <summary>
     ///Releases the emu from the confines of prison
     /// </summary>
-    public void Release()
+    public bool Release()
     {
         caged = false;
         gameObject.transform.SetParent(null);
+        return true;
     }
 }

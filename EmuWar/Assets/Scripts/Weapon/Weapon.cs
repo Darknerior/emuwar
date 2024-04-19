@@ -62,6 +62,7 @@ public class Weapon : MonoBehaviour
         {
             var aimPos = cam.ScreenToWorldPoint(new Vector3(Screen.width/2,Screen.height/2, range + 2));
             direction = (aimPos - transform.position).normalized;
+            Debug.Log(direction);
         }
         else { direction = aimDirection.forward; }
         Accuracy(ref direction);

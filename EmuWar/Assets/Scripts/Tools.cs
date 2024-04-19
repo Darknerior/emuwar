@@ -125,4 +125,9 @@ namespace Tools
 
         public static int ToInt(this float num) => (int)num;
     }
+
+    public static class IntToolS
+    {
+        public static float ToFloat(this int num) => (float)num;
+    }
 }

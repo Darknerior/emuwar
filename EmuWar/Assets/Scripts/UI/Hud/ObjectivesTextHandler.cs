@@ -15,6 +15,7 @@ public class ObjectivesTextHandler : MonoBehaviour
       texts.Remove(item1);
       progressMarker = texts.First();
       DisableText();
+      GameManager.Instance.Subscribe(ObjectivesBannerEnabled);
   }
   
 
@@ -44,4 +45,6 @@ public class ObjectivesTextHandler : MonoBehaviour
       progressMarker.text = line;
       return this;
   }
+
+  private void ObjectivesBannerEnabled(bool isEnabled) => gameObject.SetActive(!isEnabled);
 }
