@@ -10,8 +10,7 @@ public class StatBooster : MonoBehaviour ,IUpHealth,IUpArmySize
     private int healthIncrease;
     private int armySizeIncrease;
     private IStatOwner owner;
-    //private BaseController baseControl;
-
+   [SerializeField] private ArmyDisplay display;
     public void SetUp(IStatOwner thisOwner)
     {
         owner = thisOwner;
@@ -19,9 +18,8 @@ public class StatBooster : MonoBehaviour ,IUpHealth,IUpArmySize
         maxArmySize = owner.MaxArmySize;
         healthIncrease = owner.MaxHealthIncrease;
         armySizeIncrease = owner.ArmySizeIncrease;
-        //baseControl = GameManager.Instance.Base;
         GameManager.Instance.Base.SetStats(this);
-        Debug.Log($"Stats Captured for {gameObject.name}");
+        UpdateDisplay();
     }
 
 
@@ -35,5 +33,7 @@ public class StatBooster : MonoBehaviour ,IUpHealth,IUpArmySize
     {
         maxArmySize += armySizeIncrease;
         owner.UpdateArmy(maxArmySize);
+        UpdateDisplay();
     }
+    public void UpdateDisplay() => display.UpdateText(owner);
 }

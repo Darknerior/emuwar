@@ -39,13 +39,20 @@ public class VehicleInteraction : Node
                var car = col.GetComponent<INPCInteractible>();
                 inVehicle = car.Interact(treeEntity);
                 myCol.enabled = !inVehicle;
-                myCol.transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                myCol.transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
         }
         else if (inVehicle && !player.inVehicle)
         {
-            var car = Physics.OverlapSphere(agent.position, minDist)
-                .First(x => x.TryGetComponent(out INPCInteractible _)).GetComponent<INPCInteractible>();
+            var col = Physics.OverlapSphere(agent.position, minDist)
+                .FirstOrDefault(x => x.TryGetComponent(out INPCInteractible _));
+            if (col == null)
+            {
+                inVehicle = false;
+                return NodeState.SUCCESS;
+            }
+
+            var car = col.GetComponent<INPCInteractible>();
                 inVehicle = car.ExitVehicle(treeEntity);
                 myCol.enabled = !inVehicle;
                 myCol.transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;

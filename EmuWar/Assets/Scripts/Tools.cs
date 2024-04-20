@@ -15,9 +15,6 @@ namespace Tools
         /// <summary>
         /// Returns a Random Vector between an upper and lower limit
         /// </summary>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <returns></returns>
         public static Vector3 RandomVector(Vector3 lower, Vector3 upper) =>
             new Vector3(Random.Range(lower.x, upper.x), Random.Range(lower.y, upper.y),
                 Random.Range(lower.z, upper.z));
@@ -25,18 +22,15 @@ namespace Tools
         /// <summary>
         /// Returns a Random Vector between the positive and negative of the value given
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static Vector3 RandomVector(Vector3 value) =>
             new Vector3(Random.Range(-value.x, value.x), Random.Range(-value.y, value.y),
                 Random.Range(-value.z, value.z));
         /// <summary>
         /// Multiplies XYZ parts of two Vectors and returns the result
         /// </summary>
-        /// <param name="vector"></param>
-        /// <param name="multi"></param>
-        /// <returns></returns>
         public static Vector3 Multiply(this Vector3 vector, Vector3 multi) => new(vector.x * multi.x, vector.y * multi.y, vector.z * multi.z);
+        
+        
         /// <summary>
         /// Returns a Vector equal to the one given, with changes on the specified axes. Original Vector will not be changed.
         /// </summary>
@@ -116,8 +110,8 @@ namespace Tools
         public static void RoundToNearest(this ref float value,float amount)
         {
             float a = Mathf.Abs(amount); //make sure value is positive
-            float valueDivByAmount = value / amount; //find raw result of value divided by amount
-            int intValue = (int)valueDivByAmount; //cast an int vale for comparisons
+            float valueDivByAmount = value / a; //find raw result of value divided by amount
+            int intValue = valueDivByAmount.ToInt(); //cast an int vale for comparisons
             //if the remainder of float - int is less than 0.5, the value needs rounding down to the closest multiple, 
             //else it should be rounded up
             value = valueDivByAmount - intValue < 0.5 ? intValue * a : (intValue + 1) * a;
@@ -125,9 +119,5 @@ namespace Tools
 
         public static int ToInt(this float num) => (int)num;
     }
-
-    public static class IntToolS
-    {
-        public static float ToFloat(this int num) => (float)num;
-    }
+    
 }

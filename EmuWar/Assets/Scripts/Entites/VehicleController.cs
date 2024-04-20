@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Interfaces;
 using UnityEngine;
 
@@ -117,8 +118,19 @@ public class VehicleController : GameEntity, IInteractable , INPCInteractible
 
     protected override void Die()
     {
+        EjectAll();
+        Destroy(gameObject);
+       // base.Die();
+    }
+
+    private void EjectAll()
+    {
         ExitVehicle();
-        base.Die();
+        for (int i = 0; i < seatArrangement.Count; i++)
+        {
+            var entity = seatArrangement.ElementAt(i).Value;
+            if (entity != null) ExitVehicle(entity);
+        }
     }
 
 

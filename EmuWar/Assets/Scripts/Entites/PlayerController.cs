@@ -22,7 +22,8 @@ public class PlayerController : GameEntity ,IStatOwner{
     private Transform playerCamParent;
     private Vector3 moveDirection;
     private Animator animator;
-    
+
+    private StatBooster stats;
     //Serialized Variables
     [SerializeField]private float emuWalkSpeed = 1.12f;//TOP EMU SPEED 31MPH
     [SerializeField]private float maxPlayerSpeed = 13.85f;//TOP EMU SPEED 31MPH
@@ -48,26 +49,20 @@ public class PlayerController : GameEntity ,IStatOwner{
     public void AddToArmy()
     {
         army++;
-        Debug.Log($"Army size now {army} of {maxArmySize}");
+        stats.UpdateDisplay();
     }
 
     public void RemoveFromArmy()
     {
         army--;
-        Debug.Log($"Army size now {army} of {maxArmySize}");
+        stats.UpdateDisplay();
     }
 
-    public void UpdateArmy(int newMaxArmy)
-    {
-        maxArmySize = newMaxArmy;
-        Debug.Log($"Max Army now {maxArmySize}");
-    }
-
+    public void UpdateArmy(int newMaxArmy) => maxArmySize = newMaxArmy;
     public void UpdateHealth(int newHealth)
     {
         maxHealth = newHealth;
         health = maxHealth;
-        Debug.Log($"Max Health now {maxHealth}");
         healthBar.GetComponent<HealthBar>().UpdateHealthBar();
     }
 
@@ -83,8 +78,9 @@ public class PlayerController : GameEntity ,IStatOwner{
         animator = GetComponentInChildren<Animator>();
         
         yield return new WaitForEndOfFrame();
-        gameObject.GetComponentInChildren<StatBooster>().SetUp(this);
-    }
+      stats = gameObject.GetComponentInChildren<StatBooster>();
+       stats.SetUp(this);
+   }
     private void Update()
     {
         if (inVehicle) return; 
@@ -107,9 +103,6 @@ public class PlayerController : GameEntity ,IStatOwner{
         animator.speed = speed / emuWalkSpeed;
     }
     
-    
-
-
     /// <summary>
     /// Movement for the controller
     /// </summary>
