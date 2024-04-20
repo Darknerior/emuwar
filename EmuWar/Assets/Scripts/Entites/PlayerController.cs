@@ -85,20 +85,12 @@ public class PlayerController : GameEntity ,IStatOwner{
         yield return new WaitForEndOfFrame();
         gameObject.GetComponentInChildren<StatBooster>().SetUp(this);
     }
-    
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) EditorApplication.isPaused = true;
         if (inVehicle) return; 
         Movement();
         Rotate();
         Animation();
-
-   /*     if (Input.GetMouseButton(0))
-        {
-            weapon.Shoot();
-        }*/
-        
     }
 
     public override void TakeDamage(float damage)
@@ -107,8 +99,6 @@ public class PlayerController : GameEntity ,IStatOwner{
         healthBar.GetComponent<HealthBar>().UpdateHealthBar();
     }
     
-    
-
     /// <summary>
     /// Player Animation
     /// </summary>
@@ -132,12 +122,8 @@ public class PlayerController : GameEntity ,IStatOwner{
         var cameraRight = cameraPlayer.transform.right;
         cameraForward.y = 0f; // Remove vertical component for horizontal movement
         cameraRight.y = 0f; // Remove vertical component for horizontal movement
-       /* cameraForward.Normalize();
-        cameraRight.Normalize();*/
     
         moveDirection = cameraForward * Input.GetAxisRaw("Vertical") + cameraRight * Input.GetAxisRaw("Horizontal");
-        
-        
         //Acceleration
         if(speed < maxPlayerSpeed && Input.GetKey(sprintKey))speed += playerAcceleration * Time.deltaTime;
         
@@ -145,7 +131,6 @@ public class PlayerController : GameEntity ,IStatOwner{
         if (Input.GetKeyDown(aimkey)) {
             // Reset the weapon camera to the default rotation
             cameraWp.transform.localRotation = Quaternion.identity;
-            
             cameraWp.gameObject.SetActive(true);
            // cameraPlayer.gameObject.SetActive(false);
             vCamera.SetActive(false);
@@ -170,7 +155,6 @@ public class PlayerController : GameEntity ,IStatOwner{
         if (Input.GetKeyDown(jumpKey) && groundedPlayer && canJump)playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-
     }
 
     /// <summary>
@@ -201,7 +185,6 @@ public class PlayerController : GameEntity ,IStatOwner{
             cameraPlayer.transform.SetParent(cameraWp.transform);
             cameraPlayer.transform.localPosition = Vector3.zero;
             cameraPlayer.transform.localRotation = Quaternion.identity;
-
         }
         else
         {
@@ -214,20 +197,13 @@ public class PlayerController : GameEntity ,IStatOwner{
                 if (moveDirection != Vector3.zero)
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
-
-
-
+            
             //Revert camera to original parent
             cameraPlayer.transform.SetParent(playerCamParent);
-
         }
     }
-
     protected override void Die()
     {
         gameObject.SetActive(false);
     }
-
-
-   
 }

@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using Interfaces;
 using UnityEngine;
 
 /// <summary>
 /// Vehicle controller using character controller
 /// </summary>
-public class VehicleController : GameEntity, IInteractable
+public class VehicleController : GameEntity, IInteractable , INPCInteractible
 {
     public CharacterController controller;
     public Transform body;
@@ -16,7 +17,9 @@ public class VehicleController : GameEntity, IInteractable
     public Transform wheel2;
     public Transform wheel3;
     public Transform wheel4;
-    public Transform seat;
+    public Transform drivingSeat;
+    [SerializeField] private Transform[] passengerSeat;
+    private Dictionary<Transform, GameEntity> seatArrangement = new();
     private GameObject player;
     public bool _enabled;
     [SerializeField]private KeyCode exitKey = KeyCode.LeftControl;
@@ -26,7 +29,10 @@ public class VehicleController : GameEntity, IInteractable
         speed = vehSpeed;
         health = vehHealth;
         player = GameManager.Instance.player;
-        
+        foreach (var seat in passengerSeat)
+        {
+            seatArrangement.Add(seat,null);
+        }
     }
 
     private void FixedUpdate()
@@ -65,7 +71,6 @@ public class VehicleController : GameEntity, IInteractable
         var moveInput = Input.GetAxis("Vertical");
         var moveDirection = body.right * (moveInput * speed)+ Vector3.down * gravity;
         controller.Move(moveDirection);
-        
     }
 
     /// <summary>
@@ -96,13 +101,12 @@ public class VehicleController : GameEntity, IInteractable
     public void Interact() {
         player.GetComponentInChildren<Animator>().SetBool("isWalking", false);
         player.transform.SetParent(gameObject.transform);
-        player.transform.position = seat.position;
-        player.transform.rotation = seat.rotation;
+        player.transform.position = drivingSeat.position;
+        player.transform.rotation = drivingSeat.rotation;
         player.GetComponent<PlayerController>().inVehicle = true;
         _enabled = true;
         var keyStr = exitKey.ToString().ToUpper();
         player.GetComponent<RayCastInteractor>().UpdateInteractText("Press <color=yellow><b>"+keyStr+"</b></color> to exit vehicle");
-
     }
 
     public string GetText()
@@ -115,5 +119,30 @@ public class VehicleController : GameEntity, IInteractable
     {
         ExitVehicle();
         base.Die();
+    }
+
+
+    public bool Interact(GameEntity entity)
+    {
+        foreach (var t in passengerSeat)
+        {
+            if (seatArrangement[t] == null)
+            {
+                entity.transform.SetParent(t);
+                entity.transform.localPosition = Vector3.zero;
+                entity.transform.rotation = t.rotation;
+                seatArrangement[t] = entity;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool ExitVehicle(GameEntity entity)
+    {
+        seatArrangement[entity.transform] = null;
+        entity.transform.SetParent(null);
+        return false;
     }
 }

@@ -1,3 +1,5 @@
+using BehaviourTree;
+
 namespace Interfaces
 {
     /// <summary>
@@ -45,5 +47,10 @@ namespace Interfaces
     {
         bool Release();
     }
-    
+
+    public interface INPCInteractible
+    {
+        bool Interact(GameEntity entity);
+        bool ExitVehicle(GameEntity entity);
+    }
 }

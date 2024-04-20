@@ -71,7 +71,6 @@ namespace BehaviourTree
         public object GetData(string key)
         {
             sharedData.TryGetValue(key, out object value);
-
             return value;
         }
     /// <summary>

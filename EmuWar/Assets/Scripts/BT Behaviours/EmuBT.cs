@@ -42,7 +42,7 @@ public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
                 new Patrol(this,targetPosition,followDistance),
                 new ObjectAvoidance(this),
                  new Flock(this, targetPosition),
-                 
+                 new VehicleInteraction(this)
             })
            
         }) ;

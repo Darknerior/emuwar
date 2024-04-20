@@ -27,6 +27,13 @@ public class CheckForPlayerInRange : Node
 
     public override NodeState Evaluate()
     {
+        object info = tree.GetData("InVehicle");
+        if (info != null)
+        {
+            bool inVehicle = (bool)info;
+            Debug.Log(inVehicle);
+            if(inVehicle) return NodeState.FAILED;
+        }
         bool isSafe = true;
         Collider[] cols = Physics.OverlapSphere(_transform.position, fovRange, enemyLayer);
         tree.SetData("Colliders", cols);
