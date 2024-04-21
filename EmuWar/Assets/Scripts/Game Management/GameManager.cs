@@ -8,7 +8,7 @@ public class GameManager : Singleton<GameManager>
 {
 
     [DoNotSerialize] public ObjectPooler Pool;
-    [SerializeField] private GameObject bullet, enemy;
+    [SerializeField] private GameObject bullet, enemy, cagedEmu;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private float timeBetweenBaseSpawns;
     private bool gameIsPaused = false;
@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager>
         
         Pool.CreateNewPool(ObjectList.BULLET, bullet);
         Pool.CreateNewPool(ObjectList.ENEMY,enemy,5);
+        Pool.CreateNewPool(ObjectList.CAGEDEMU,cagedEmu);
     }
 
     private void Update()
@@ -78,6 +79,5 @@ public class GameManager : Singleton<GameManager>
 
     public void Subscribe(GameIsPaused action) => OnPaused += action;
     public void UnSubscribe(GameIsPaused action) => OnPaused -= action;
-
 
 }
