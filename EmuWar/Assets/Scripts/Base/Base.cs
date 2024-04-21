@@ -26,7 +26,6 @@ public class Base : MonoBehaviour
         gameObject.SetActive(false);
         if (cagedEmu == null)
         {
-            Debug.Log("Caged Emu Not Found",this.gameObject);
             return;
         }
         cagedEmuPosition = cagedEmu.transform.position;

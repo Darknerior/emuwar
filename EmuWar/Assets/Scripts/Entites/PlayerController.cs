@@ -45,6 +45,7 @@ public class PlayerController : GameEntity ,IStatOwner{
     public int MaxHealthIncrease => healthIncrease;
     public int ArmySizeIncrease => armySizeIncrease;
     public int ArmySize => army;
+    private Transform spawnPoint;
 
     public void AddToArmy()
     {
@@ -76,7 +77,7 @@ public class PlayerController : GameEntity ,IStatOwner{
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
         animator = GetComponentInChildren<Animator>();
-        
+        spawnPoint = GameObject.Find("SpawnPoint").transform;
         yield return new WaitForEndOfFrame();
       stats = gameObject.GetComponentInChildren<StatBooster>();
        stats.SetUp(this);
@@ -197,6 +198,10 @@ public class PlayerController : GameEntity ,IStatOwner{
     }
     protected override void Die()
     {
-        gameObject.SetActive(false);
+        var cc = gameObject.GetComponent<CharacterController>();
+        cc.enabled = false;
+        transform.position = spawnPoint.position;
+        cc.enabled = true;
+        ResetHealth();
     }
 }

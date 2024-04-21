@@ -96,10 +96,9 @@ namespace BehaviourTree
             ReturnToPool();
         }
 
-        public bool Release()
-        {
-            Collider[] results = new Collider[10];
-            int resultLen = Physics.OverlapSphereNonAlloc(transform.position, 3, results);
+        public bool Release(){
+           var results = Physics.OverlapSphere(transform.position, 3);
+           int resultLen = results.Length;
             if(resultLen == 0) return false;
             for (int i = 0; i < resultLen; i++)
             {
