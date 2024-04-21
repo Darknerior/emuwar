@@ -14,7 +14,7 @@ namespace BehaviourTree
     {
         private Node root = null;
         private Dictionary<string, object> sharedData = new();
-        public bool IsCaged { get; private set; }
+        private bool isCaged;
         private IStatOwner statOwner;
 
         protected void Awake()
@@ -24,12 +24,12 @@ namespace BehaviourTree
 
         protected void Start()
         {
-            if (gameObject.GetComponentInParent(typeof(CagedEmu))) IsCaged = true;
+            if (gameObject.GetComponentInParent(typeof(CagedEmu))) isCaged = true;
         }
 
         private void Update()
         {
-            if (root == null || IsCaged) return;
+            if (root == null || isCaged) return;
             root.Evaluate();
         }
 
@@ -96,9 +96,10 @@ namespace BehaviourTree
             ReturnToPool();
         }
 
-        public bool Release(){
-           var results = Physics.OverlapSphere(transform.position, 3);
-           int resultLen = results.Length;
+        public bool Release()
+        {
+            Collider[] results = new Collider[10];
+            int resultLen = Physics.OverlapSphereNonAlloc(transform.position, 3, results);
             if(resultLen == 0) return false;
             for (int i = 0; i < resultLen; i++)
             {
@@ -111,7 +112,7 @@ namespace BehaviourTree
                 if(i == resultLen - 1) return false;
             }
             
-            IsCaged = false;
+            isCaged = false;
             gameObject.transform.SetParent(null);
             return true;
         }

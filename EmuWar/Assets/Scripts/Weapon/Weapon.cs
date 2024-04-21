@@ -18,6 +18,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float accuracyPercentage;
     [SerializeField] private float maxErrorInAimRadius;
     private bool readyToFire = true;
+    private PlayerController playerController;
+    
     private Coroutine coroutine;
     private bool aimOverride;
     private Camera cam;
@@ -31,14 +33,12 @@ public class Weapon : MonoBehaviour
         currentMag = magSize;
         if(TryGetComponent(out PlayerController _)) aimOverride = true;
         cam = aimDirection.GetComponent<Camera>();
+        playerController = gameObject.GetComponent<PlayerController>();
     }
     public void Update()
     {
-        if(!aimOverride)return;
-        if (Input.GetKey(KeyCode.F))
-        {
-            Shoot();
-        }
+        if(!aimOverride || playerController.inVehicle)return;
+        if (Input.GetMouseButton(0))Shoot();
     }
 
 
@@ -62,6 +62,7 @@ public class Weapon : MonoBehaviour
         {
             var aimPos = cam.ScreenToWorldPoint(new Vector3(Screen.width/2,Screen.height/2, range + 2));
             direction = (aimPos - transform.position).normalized;
+            Debug.Log(direction);
         }
         else { direction = aimDirection.forward; }
         Accuracy(ref direction);

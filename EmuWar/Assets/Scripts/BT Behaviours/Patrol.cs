@@ -42,8 +42,6 @@ public class Patrol : Node
         this.tree = tree;
         target = position;
         distance = followDistance;
-        if (position == null)
-            position = GameObject.Find("Player").transform;
         targetPositions.Add(position.position);
         targetNotNull = true;
         waitTime = 0f;

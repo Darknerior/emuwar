@@ -399,12 +399,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19747d67416b5949afcea82b34bf062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   speed: 0
-  maxHealth: 0
   player: {fileID: 0}
-  emuNpcStartHealth: 100
-  emuNpcMaxHealth: 100
+  emuNPCStartHealth: 100
+  emuNPCMaxHealth: 100
   targetDistance: 5
   maxDistance: 20
   moveSpeed: 5

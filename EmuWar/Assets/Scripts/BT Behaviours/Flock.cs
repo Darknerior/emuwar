@@ -19,7 +19,6 @@ public class Flock : Node
         range = Tree.FOVRange;
         this.target = target;
     }
-    
     //Checks first to see if it is near it target, if so, return.
     //Finds the neighbours that will influence its position, then gets the "Movement" information from previous 
     //behaviours, and adds its own to that, and applies the movement.

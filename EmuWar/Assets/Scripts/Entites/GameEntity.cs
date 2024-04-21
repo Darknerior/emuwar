@@ -48,8 +48,6 @@ public class GameEntity : MonoBehaviour, IDamageable
         CheckHealth();
     }
 
-    protected void ResetHealth() => health = maxHealth;
-
     
     /// <summary>
     /// All entities should implement movement

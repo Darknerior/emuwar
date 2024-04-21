@@ -13,14 +13,21 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
     public Patrol Patrol { get; private set; }
     private Base spawner;
     public Node ThisNode { get; private set; }
+    
     private Vector3[] TargetPositions => targetLocations.Length != 0? targetLocations.Select(x => x.position).ToArray() : new Vector3[]{Vector3.zero};
+
     public Animator Animator => transform.Find("EMUanimated").GetComponent<Animator>();
     public Rigidbody Rigidbody { get; private set; }
     public float FOVRange => fovRange;
+
     public float Speed => speed;
+
     public Transform Transform => transform;
+
     public float MinimumDistance => minimumRange;
+
     public float RetreatRadius => retreatRadius;
+
     public BehaviourTree.Tree Tree => this;
 
     protected override Node SetUpTree()
@@ -34,11 +41,12 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
                  {
                      new CheckForPlayerInRange(this, playerMask),
                      new CheckIfBeingShotAt(this),
+                     
                     new GoToTarget(this),
-                   
                     new BeginAttack(this),
                  }),
                  new MoveToSaferArea(this),
+             
             }),
 
              new Patrol(this,TargetPositions)

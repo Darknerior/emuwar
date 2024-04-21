@@ -1,7 +1,8 @@
-using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
-using Interfaces;
+using UnityEditor.SearchService;
 
 public class CheckForPlayerInRange : Node
 {
@@ -30,20 +31,14 @@ public class CheckForPlayerInRange : Node
         if (info != null)
         {
             bool inVehicle = (bool)info;
+            Debug.Log(inVehicle);
             if(inVehicle) return NodeState.FAILED;
         }
         bool isSafe = true;
-        Collider[] cols = Physics.OverlapSphere(_transform.position, fovRange, enemyLayer)
-            .Where(x =>
-            {
-                x.TryGetComponent(out ICagedEmu emu);
-                if (emu == null) return true;
-                return !emu.IsCaged;
-            }).ToArray();
+        Collider[] cols = Physics.OverlapSphere(_transform.position, fovRange, enemyLayer);
         tree.SetData("Colliders", cols);
             if (cols.Length > 0)
             {
-                
                 Transform target = cols[0].transform;
                  tree.SetData("Target", target);
                float distanceFromTarget = Vector3.Distance(target.position, _transform.position);

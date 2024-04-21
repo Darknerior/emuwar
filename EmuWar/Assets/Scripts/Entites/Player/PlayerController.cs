@@ -22,8 +22,8 @@ public class PlayerController : GameEntity ,IStatOwner{
     private Transform playerCamParent;
     private Vector3 moveDirection;
     private Animator animator;
-
     private StatBooster stats;
+    
     //Serialized Variables
     [SerializeField]private float emuWalkSpeed = 1.12f;//TOP EMU SPEED 31MPH
     [SerializeField]private float maxPlayerSpeed = 13.85f;//TOP EMU SPEED 31MPH
@@ -39,29 +39,24 @@ public class PlayerController : GameEntity ,IStatOwner{
     [SerializeField] private int maxArmySize, healthIncrease, armySizeIncrease;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     public bool inVehicle;
+    
+    
     private int army;
     public int Health => maxHealth.ToInt();
     public int MaxArmySize => maxArmySize;
     public int MaxHealthIncrease => healthIncrease;
     public int ArmySizeIncrease => armySizeIncrease;
     public int ArmySize => army;
-    private Transform spawnPoint;
-
-    public void AddToArmy()
-    {
+    public void AddToArmy() {
         army++;
         stats.UpdateDisplay();
     }
-
-    public void RemoveFromArmy()
-    {
+    public void RemoveFromArmy() {
         army--;
         stats.UpdateDisplay();
     }
-
     public void UpdateArmy(int newMaxArmy) => maxArmySize = newMaxArmy;
-    public void UpdateHealth(int newHealth)
-    {
+    public void UpdateHealth(int newHealth) {
         maxHealth = newHealth;
         health = maxHealth;
         healthBar.GetComponent<HealthBar>().UpdateHealthBar();
@@ -77,21 +72,20 @@ public class PlayerController : GameEntity ,IStatOwner{
         virtualCamera = vCamera.GetComponent<CinemachineVirtualCamera>();
         playerCamParent = cameraPlayer.transform.parent;
         animator = GetComponentInChildren<Animator>();
-        spawnPoint = GameObject.Find("SpawnPoint").transform;
+        
         yield return new WaitForEndOfFrame();
       stats = gameObject.GetComponentInChildren<StatBooster>();
        stats.SetUp(this);
    }
-    private void Update()
-    {
+   
+    private void Update() {
         if (inVehicle) return; 
         Movement();
         Rotate();
         Animation();
     }
 
-    public override void TakeDamage(float damage)
-    {
+    public override void TakeDamage(float damage) {
         base.TakeDamage(damage);
         healthBar.GetComponent<HealthBar>().UpdateHealthBar();
     }
@@ -154,8 +148,7 @@ public class PlayerController : GameEntity ,IStatOwner{
     /// <summary>
     /// Rotation for the controller
     /// </summary>
-    private void Rotate()
-    {
+    private void Rotate() {
         // Get the current rotation of the camera
         // Quaternion cameraRotation;
         Quaternion targetRotation;
@@ -163,8 +156,7 @@ public class PlayerController : GameEntity ,IStatOwner{
         //Rotates based on horizontal input
         var rotateSpeed = speed > defaultPlayerSpeed ? playerSprintRotationSpeed : playerRotationSpeed;
         // Rotates based on mouse input when aimed
-        if (aimed)
-        {
+        if (aimed) {
             // Get mouse input for rotation
             var mouseX = Input.GetAxis("Mouse X") * rotateSpeed;
             var mouseY = Input.GetAxis("Mouse Y") * rotateSpeed;
@@ -196,12 +188,8 @@ public class PlayerController : GameEntity ,IStatOwner{
             cameraPlayer.transform.SetParent(playerCamParent);
         }
     }
-    protected override void Die()
-    {
-        var cc = gameObject.GetComponent<CharacterController>();
-        cc.enabled = false;
-        transform.position = spawnPoint.position;
-        cc.enabled = true;
-        ResetHealth();
+    
+    protected override void Die() {
+        gameObject.SetActive(false);
     }
 }

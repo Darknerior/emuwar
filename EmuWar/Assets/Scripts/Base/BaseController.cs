@@ -64,16 +64,6 @@ public class BaseController
     {
         stats = booster;
     }
-
-    public bool AnyCagedEmuActive()
-    {
-        foreach (var item in bases)
-        {
-            if (item.CagedEmuActive()) return true;
-        }
-
-        return false;
-    }
 }
 
 public enum BaseType
