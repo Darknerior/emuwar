@@ -23,7 +23,7 @@ public class ObjectPooler
             return;
         }
 
-        if(!obj.TryGetComponent(out IPoolable _))
+        if(!obj.TryGetComponent(out IPoolable _) && obj.GetComponentInChildren<IPoolable>() == null)
         {
             Debug.Log("Not Added");
             return;
@@ -113,7 +113,7 @@ public class ObjectPooler
         {
             for(int i = count; i <= amount; i++)
             {
-                GameObject newObject = GameObject.Instantiate(referencePool[objectType]);
+                GameObject newObject = Object.Instantiate(referencePool[objectType]);
                 newObject.SetActive(false);
                 GamePool[objectType].Add(newObject);
                 result.Add(newObject);
@@ -121,12 +121,24 @@ public class ObjectPooler
         }
         return result.Count == amount ? result : null;
     }
+    /// <summary>
+    /// Clears all objects currently contained in this pool and makes a new one.
+    /// </summary>
+    /// <param name="item"></param>
+    public void ResetPool(ObjectList item)
+    {
+        GamePool[item] = new List<GameObject>();
+        GameObject newObject = Object.Instantiate(referencePool[item]);
+        newObject.SetActive(false);
+        GamePool[item].Add(newObject);
+    }
 }
 
 public enum ObjectList
 {
     BULLET,
-    ENEMY
+    ENEMY,
+    CAGEDEMU
 }
 
 

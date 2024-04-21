@@ -14,7 +14,7 @@ namespace BehaviourTree
     {
         private Node root = null;
         private Dictionary<string, object> sharedData = new();
-        private bool isCaged;
+        public bool IsCaged { get; private set; }
         private IStatOwner statOwner;
 
         protected void Awake()
@@ -24,12 +24,12 @@ namespace BehaviourTree
 
         protected void Start()
         {
-            if (gameObject.GetComponentInParent(typeof(CagedEmu))) isCaged = true;
+            if (gameObject.GetComponentInParent(typeof(CagedEmu))) IsCaged = true;
         }
 
         private void Update()
         {
-            if (root == null || isCaged) return;
+            if (root == null || IsCaged) return;
             root.Evaluate();
         }
 
@@ -112,7 +112,7 @@ namespace BehaviourTree
                 if(i == resultLen - 1) return false;
             }
             
-            isCaged = false;
+            IsCaged = false;
             gameObject.transform.SetParent(null);
             return true;
         }

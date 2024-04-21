@@ -45,6 +45,7 @@ namespace Interfaces
 
     public interface ICagedEmu
     {
+        bool IsCaged { get; }
         bool Release();
     }
 
