@@ -3,7 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
+/// <summary>
+/// Loads a scene using timer delay
+/// </summary>
 public class SceneLoader : MonoBehaviour {
     [SerializeField] private float waitTime = 3f;
     [SerializeField] private string sceneToLoad = "Main";

@@ -148,10 +148,10 @@ public class PlayerController : GameEntity ,IStatOwner{
         //Reset Player Speed when sprinting is ceased
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(sprintKey)) speed = defaultPlayerSpeed; 
 
-        // Move the player using CharacterController
+        //Move the player using CharacterController
         controller.Move((speed * moveDirection + playerVelocity) * Time.deltaTime);
         
-        // Changes the height position of the player..
+        //Changes the height position of the player..
         var canJump = speed <= defaultPlayerSpeed;
         if (Input.GetKeyDown(jumpKey) && groundedPlayer && canJump)playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -169,10 +169,10 @@ public class PlayerController : GameEntity ,IStatOwner{
 
         //Rotates based on horizontal input
         var rotateSpeed = speed > defaultPlayerSpeed ? playerSprintRotationSpeed : playerRotationSpeed;
-        // Rotates based on mouse input when aimed
+        //Rotates based on mouse input when aimed
         if (aimed)
         {
-            // Get mouse input for rotation
+            //Get mouse input for rotation
             var mouseX = Input.GetAxis("Mouse X") * rotateSpeed;
             var mouseY = Input.GetAxis("Mouse Y") * rotateSpeed;
 
@@ -190,11 +190,11 @@ public class PlayerController : GameEntity ,IStatOwner{
         else
         {
             xRotation = 0;
-            // Calculate the target rotation for the player to face the direction of the camera
+            //Calculate the target rotation for the player to face the direction of the camera
             if (moveDirection.normalized != new Vector3(0, 0, 0))
             {
                 targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
-                // Lerp the player's rotation towards the target rotation when moving
+                //Lerp the player's rotation towards the target rotation when moving
                 if (moveDirection != Vector3.zero)
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }

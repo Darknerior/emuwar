@@ -1,34 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CreditsScroll : MonoBehaviour
-{
-    public TMP_Text creditsText;       // The TextMeshPro component displaying the credits
-    public float scrollSpeed = 20f;    // Speed at which the credits scroll
-    public float delayBeforeStart = 15f; // Delay in seconds before the credits start scrolling
-
+public class CreditsScroll : MonoBehaviour {
+    [SerializeField]private TMP_Text creditsText;       // The TextMeshPro component displaying the credits
+    [SerializeField]private float scrollSpeed = 20f;    // Speed at which the credits scroll
+    [SerializeField]private float delayBeforeStart = 15f; // Delay in seconds before the credits start scrolling
     private bool startScrolling = false;
 
-    private void Start()
-    {
-        // Start the coroutine that handles the delayed start
+    private void Start() {
         StartCoroutine(DelayStart());
     }
 
-    private IEnumerator DelayStart()
-    {
+    private IEnumerator DelayStart() {
         yield return new WaitForSeconds(delayBeforeStart);
         startScrolling = true;
     }
 
-    private void Update()
-    {
-        if (startScrolling)
-        {
-            // Move the text upward by changing its Y position
-            creditsText.transform.position += new Vector3(0, scrollSpeed * Time.deltaTime, 0);
-        }
+    private void Update() {
+        if (startScrolling)creditsText.transform.position += new Vector3(0, scrollSpeed * Time.deltaTime, 0);
     }
 }

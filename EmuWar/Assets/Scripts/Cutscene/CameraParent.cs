@@ -1,33 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraParent : MonoBehaviour
-{
-    public List<Transform> parents; 
-    public float interval = 15f; 
+/// <summary>
+/// Changes the camera parent every x seconds
+/// </summary>
+public class CameraParent : MonoBehaviour {
+    [SerializeField]private List<Transform> parents; 
+    [SerializeField]private float interval = 15f; 
     private float timer; 
-    private int currentindex = 0; 
+    private int currentindex;
 
-    void Start() {
+    private void Start() {
         timer = interval; 
     }
 
-    void Update()
-    {
-        timer -= Time.deltaTime; 
-        if (timer <= 0 && parents.Count > 0) {
-            ChangeParent();
-            timer = interval; 
-        }
+    private void Update() {
+        timer -= Time.deltaTime;
+        if (!(timer <= 0) || parents.Count <= 0) return;
+        ChangeParent();
+        timer = interval;
     }
 
-    void ChangeParent() {
-        Transform newParent = parents[currentindex];
+    private void ChangeParent() {
+        var newParent = parents[currentindex];
         if (currentindex > parents.Count-2) currentindex = 0;
         else currentindex++;
-        transform.SetParent(newParent, true);
-        transform.position = newParent.position;
-        transform.rotation = newParent.rotation;
+        Transform transform1;
+        (transform1 = transform).SetParent(newParent, true);
+        transform1.position = newParent.position;
+        transform1.rotation = newParent.rotation;
     }
 }
