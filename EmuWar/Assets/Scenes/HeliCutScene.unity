@@ -661,6 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitTime: 10
   sceneToLoad: Main
+  skippable: 1
 --- !u!4 &1644857326
 Transform:
   m_ObjectHideFlags: 0
@@ -730,6 +731,7 @@ MonoBehaviour:
   delayBetweenCharacters: 0.1
   fullText: 'Location: Campion *Time: 13:00 *Personnel:  Colonel Edward Mu *Operation:
     Rescue Emus'
+  delayBeforeClearing: 15
 --- !u!114 &1806530388
 MonoBehaviour:
   m_ObjectHideFlags: 0

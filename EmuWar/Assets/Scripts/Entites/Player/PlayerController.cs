@@ -207,7 +207,7 @@ public class PlayerController : GameEntity ,IStatOwner{
     {
         var cc = gameObject.GetComponent<CharacterController>();
         cc.enabled = false;
-        transform.position = spawnPoint.position;
+        if(spawnPoint != null)transform.position = spawnPoint.position;
         cc.enabled = true;
         ResetHealth();
     }

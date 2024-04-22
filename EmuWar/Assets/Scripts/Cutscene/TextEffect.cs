@@ -7,6 +7,7 @@ public class TextEffect : MonoBehaviour
 {
     public float delayBetweenCharacters = 0.1f;
     public string fullText = "Your text here";
+    public float delayBeforeClearing = 15f;
     
     private TMP_Text textComponent;
 
@@ -18,6 +19,7 @@ public class TextEffect : MonoBehaviour
     private void Start()
     {
         StartCoroutine(TypeText());
+        StartCoroutine(ClearTextAfterDelay());
     }
 
     IEnumerator TypeText()
@@ -37,5 +39,11 @@ public class TextEffect : MonoBehaviour
                 textComponent.text = typedText;
             }
         }
+    }
+    
+    IEnumerator ClearTextAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeClearing); // Wait for the specified delay
+        textComponent.text = ""; // Clear the text
     }
 }
