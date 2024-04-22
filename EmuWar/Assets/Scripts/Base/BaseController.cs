@@ -9,8 +9,8 @@ public class BaseController
     private float waitTime;
     private StatBooster stats;
     public Base ActiveBase { get; private set; }
-   public BaseController(float timeBetweenBaseSpawn)
-   {
+    public BaseController(float timeBetweenBaseSpawn)
+    {
         bases = GameObject.FindObjectsOfType(typeof(Base), true).Cast<Base>().ToList();
         foreach (var @base in bases)
         {
@@ -18,7 +18,7 @@ public class BaseController
         }
         waitTime = timeBetweenBaseSpawn;
         StartCountdown(BaseType.NONE);
-   }
+    }
 
     private void SetNewBase()
     {
@@ -63,6 +63,16 @@ public class BaseController
     public void SetStats(StatBooster booster)
     {
         stats = booster;
+    }
+
+    public bool AnyCagedEmuActive()
+    {
+        foreach (var item in bases)
+        {
+            if (item.CagedEmuActive()) return true;
+        }
+
+        return false;
     }
 }
 

@@ -1,5 +1,3 @@
-using BehaviourTree;
-
 namespace Interfaces
 {
     /// <summary>
@@ -35,7 +33,7 @@ namespace Interfaces
 
     public interface IUpHealth
     {
-       void UpHealth();
+        void UpHealth();
     }
 
     public interface IUpArmySize
@@ -45,6 +43,7 @@ namespace Interfaces
 
     public interface ICagedEmu
     {
+        bool IsCaged { get; }
         bool Release();
     }
 

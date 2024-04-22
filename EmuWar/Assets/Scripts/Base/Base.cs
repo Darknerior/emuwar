@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,15 +11,28 @@ public class Base : MonoBehaviour
     [SerializeField] private float minPatrolDistFormBase;
     [SerializeField] private float maxPatrolDistFormBase;
     [SerializeField] private ObjectivesTextHandler ObjectivesMarkers;
+    [SerializeField] private GameObject cagedEmu;
     private List<GameObject> enemies = new();
     private List<Patrol> patrolTargets = new();
     private Vector3[] multiples = { new (1, 0, 1), new(1, 0, -1), new (-1, 0, -1), new (-1, 0, 1) };
     private BaseController control;
     private int initialCount;
+    private bool ownsAnEmu;
+
+    private Vector3 cagedEmuPosition;
+
     // Start is called before the first frame update
     void Awake()
     {
         gameObject.SetActive(false);
+        if (cagedEmu == null)
+        {
+            return;
+        }
+        cagedEmuPosition = cagedEmu.transform.position;
+        cagedEmu.SetActive(false);
+        ownsAnEmu = true;
+        //cagedEmu.GetComponentInChildren<CagedEmu>().SetOwner(this);
     }
     
     private void OnEnable()
@@ -45,6 +59,18 @@ public class Base : MonoBehaviour
 
         initialCount = enemies.Count;
         ObjectivesMarkers.EnableObjectiveBannerWithString("Defeat The Enemies!").EnableProgressMarkerWithString($"Enemies Left: {initialCount}/{initialCount}");
+
+        if (control.AnyCagedEmuActive()) return;
+        if (cagedEmu != null)
+        {
+            cagedEmu.SetActive(true);
+        }
+        else if(ownsAnEmu)
+        {
+            cagedEmu = GameManager.Instance.Pool.Get(ObjectList.CAGEDEMU);
+            cagedEmu.transform.position = cagedEmuPosition;
+            cagedEmu.SetActive(true);
+        }
     }
 
     public void SetController(BaseController thing)
@@ -114,4 +140,12 @@ public class Base : MonoBehaviour
         float zMovement = Mathf.Sqrt(dist);
         return new Vector3(xMovement, 0, zMovement);
     }
+
+    public bool CagedEmuActive()
+    {
+        if (cagedEmu == null) return false;
+        return cagedEmu.activeInHierarchy;
+    }
+
+    public void ClearCagedEmu() => cagedEmu = null;
 }

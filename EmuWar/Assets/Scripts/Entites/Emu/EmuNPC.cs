@@ -13,10 +13,12 @@ public class EmuNPC : GameEntity,ICagedEmu
     [SerializeField]private float maxDistance = 20f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
+    public bool IsCaged { get; private set; }
 
     private void Start() {
         health = emuNpcStartHealth;
         speed = moveSpeed;
+        player = GameManager.Instance.player;
     }
     
     private void Update() {
