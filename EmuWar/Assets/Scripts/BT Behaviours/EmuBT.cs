@@ -24,6 +24,7 @@ public class EmuBT : BehaviourTree.Tree, IBehaviourTreeDependancies
     protected override Node SetUpTree()
     {
         Rigidbody = GetComponent<Rigidbody>();
+        targetPosition = GameObject.Find("Player").transform;
         Node root = new Selector(new List<Node>
         {
             new Selector( new List<Node>(){

@@ -15,7 +15,7 @@ public class Jump : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("ground"))
         {
-            rb.velocity += new Vector3(0, 1, 0);
+            rb.velocity += new Vector3(0, 2, 0);
         }
     }
 }

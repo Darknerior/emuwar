@@ -28,7 +28,9 @@ public class Flock : Node
         if (Vector3.Distance(Tree.Transform.position, target.position) < Tree.MinimumDistance) return NodeState.SUCCESS;
         neighbours = FindNeighbours();
         var move = (Cohesion() + Alignment() + Avoidance());
-        Vector3 modify = (Vector3)Tree.Tree.GetData("Movement");
+        object info = Tree.Tree.GetData("Movement");
+        Vector3 modify = Vector3.zero;
+        if (info != null)  modify = (Vector3)info;
         modify -= Tree.Tree.transform.position;
         modify += move;
         

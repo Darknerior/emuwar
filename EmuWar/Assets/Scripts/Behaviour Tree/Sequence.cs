@@ -27,12 +27,12 @@ namespace BehaviourTree
                         state = NodeState.FAILED;
                         return state;
                     case NodeState.SUCCESS:
-                        state = NodeState.FAILED;
+                        state = NodeState.SUCCESS;
                         continue;
                     case NodeState.RUNNING:
                         continue;
                     default:
-                        state = NodeState.SUCCESS;
+                        state = NodeState.FAILED;
                         return state;
                 }
             }

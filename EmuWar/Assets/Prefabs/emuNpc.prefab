@@ -342,8 +342,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3772994049938206834}
   - component: {fileID: 4397210949105054768}
-  - component: {fileID: 2716796163851391621}
   - component: {fileID: 7850896926169102057}
+  - component: {fileID: 6465459837438339958}
+  - component: {fileID: -8805266240816023145}
+  - component: {fileID: 537264410596191785}
   m_Layer: 0
   m_Name: emuNpc
   m_TagString: NoCol
@@ -387,28 +389,6 @@ CapsuleCollider:
   m_Height: 1.54
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2716796163851391621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4546259260057250504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c19747d67416b5949afcea82b34bf062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  speed: 4
-  maxHealth: 100
-  player: {fileID: 0}
-  emuNpcStartHealth: 100
-  emuNpcMaxHealth: 100
-  targetDistance: 5
-  maxDistance: 20
-  moveSpeed: 5
-  rotationSpeed: 5
 --- !u!54 &7850896926169102057
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -425,6 +405,63 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
+--- !u!114 &6465459837438339958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546259260057250504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653fdbe546e3219429f8b20e08b4aaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  speed: 3
+  maxHealth: 100
+  targetPosition: {fileID: 0}
+  fovRange: 6
+  minimumRange: 2
+  retreatRadius: 15
+  followDistance: 4
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &-8805266240816023145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546259260057250504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa2d6604a6cc5249a7fa2a3f4f973a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &537264410596191785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546259260057250504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84de5133a8e93c644b18bec4a12ba609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  reloadSpeed: 3
+  magSize: 15
+  range: 10
+  projectileSpeed: 15
+  shotsPerSecond: 4
+  reloaded: 1
+  aimDirection: {fileID: 3772994049938206834}
+  accuracyPercentage: 95
+  maxErrorInAimRadius: 0.5
 --- !u!1 &5404483254165215113
 GameObject:
   m_ObjectHideFlags: 0

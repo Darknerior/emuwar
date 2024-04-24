@@ -31,9 +31,12 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         currentMag = magSize;
-        if(TryGetComponent(out PlayerController _)) aimOverride = true;
-        cam = aimDirection.GetComponent<Camera>();
-        playerController = gameObject.GetComponent<PlayerController>();
+        if (TryGetComponent(out PlayerController _))
+        {
+            aimOverride = true;
+            cam = aimDirection.GetComponent<Camera>();
+            playerController = gameObject.GetComponent<PlayerController>();
+        }
     }
     public void Update()
     {
@@ -62,7 +65,6 @@ public class Weapon : MonoBehaviour
         {
             var aimPos = cam.ScreenToWorldPoint(new Vector3(Screen.width/2,Screen.height/2, range + 2));
             direction = (aimPos - transform.position).normalized;
-            Debug.Log(direction);
         }
         else { direction = aimDirection.forward; }
         Accuracy(ref direction);

@@ -11301,6 +11301,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!1 &299951951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090501582695826552, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
+  m_PrefabInstance: {fileID: 437705226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &301771698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18109,7 +18114,7 @@ MonoBehaviour:
   minPatrolDistFormBase: 4
   maxPatrolDistFormBase: 10
   ObjectivesMarkers: {fileID: 1595443190}
-  cagedEmu: {fileID: 0}
+  cagedEmu: {fileID: 786257777}
 --- !u!1 &531798230
 GameObject:
   m_ObjectHideFlags: 0
@@ -18922,7 +18927,7 @@ MonoBehaviour:
   minPatrolDistFormBase: 4
   maxPatrolDistFormBase: 10
   ObjectivesMarkers: {fileID: 1595443190}
-  cagedEmu: {fileID: 0}
+  cagedEmu: {fileID: 1380962454}
 --- !u!1001 &554441580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20265,6 +20270,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!1 &597060120 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090501582695826552, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
+  m_PrefabInstance: {fileID: 879144770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &597341350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27024,6 +27034,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41f0392568d21ff41925e7980d08e53e, type: 3}
+--- !u!1 &786257777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090501582695826552, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
+  m_PrefabInstance: {fileID: 2013130014}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &786442936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4546259260057250504, guid: 41f0392568d21ff41925e7980d08e53e, type: 3}
@@ -29667,7 +29682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5615646326035734210, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.57
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5615646326035734210, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
       propertyPath: m_LocalPosition.z
@@ -35957,7 +35972,7 @@ MonoBehaviour:
   minPatrolDistFormBase: 10
   maxPatrolDistFormBase: 17
   ObjectivesMarkers: {fileID: 1595443190}
-  cagedEmu: {fileID: 0}
+  cagedEmu: {fileID: 597060120}
 --- !u!1 &1056123509 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4546259260057250504, guid: 41f0392568d21ff41925e7980d08e53e, type: 3}
@@ -46726,6 +46741,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!1 &1380962454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090501582695826552, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
+  m_PrefabInstance: {fileID: 32892265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1382934783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56471,7 +56491,7 @@ MonoBehaviour:
   minPatrolDistFormBase: 4
   maxPatrolDistFormBase: 10
   ObjectivesMarkers: {fileID: 1595443190}
-  cagedEmu: {fileID: 0}
+  cagedEmu: {fileID: 2085757428}
 --- !u!1001 &1657650037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65857,7 +65877,7 @@ MonoBehaviour:
   minPatrolDistFormBase: 7
   maxPatrolDistFormBase: 10
   ObjectivesMarkers: {fileID: 1595443190}
-  cagedEmu: {fileID: 0}
+  cagedEmu: {fileID: 299951951}
 --- !u!1001 &1914743558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70725,6 +70745,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41f0392568d21ff41925e7980d08e53e, type: 3}
+--- !u!1 &2085757428 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090501582695826552, guid: 9afa76e011024d44e8959f0a00ac4973, type: 3}
+  m_PrefabInstance: {fileID: 1708630869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2086729328 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4546259260057250504, guid: 41f0392568d21ff41925e7980d08e53e, type: 3}
