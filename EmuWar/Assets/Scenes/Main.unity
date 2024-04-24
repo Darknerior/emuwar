@@ -63765,6 +63765,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1755555298}
   timeBetweenBaseSpawns: 10
   player: {fileID: 6989637746300114075}
+  enemiesToDefeat: 25
 --- !u!4 &1863895828
 Transform:
   m_ObjectHideFlags: 0

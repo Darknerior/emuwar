@@ -62,6 +62,7 @@ public class EnemyBT : BehaviourTree.Tree, IBehaviourTreeDependancies
     protected override void Die()
     {
         base.Die();
+        GameManager.Instance.ObjectiveProgress();
         if (spawner == null) return;
         spawner.RemoveEntityFromList(this);
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -11,8 +12,11 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject bullet, enemy, cagedEmu;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private float timeBetweenBaseSpawns;
+    private const string exitScene = "HeliCutExit";
     private bool gameIsPaused = false;
     public GameObject player;
+    [SerializeField] private int enemiesToDefeat = 50;
+    private int defeatedEnemies;
     public BaseController Base { get; private set; }
     public void Awake()
     {
@@ -83,5 +87,15 @@ public class GameManager : Singleton<GameManager>
 
     public void Subscribe(GameIsPaused action) => OnPaused += action;
     public void UnSubscribe(GameIsPaused action) => OnPaused -= action;
+    public void ObjectiveProgress()
+    {
+        defeatedEnemies++;
+        CheckObjective();
+    }
+
+    private void CheckObjective()
+    {
+       if (defeatedEnemies == enemiesToDefeat) SceneManager.LoadScene(exitScene);
+    }
 
 }
