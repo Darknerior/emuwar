@@ -32,7 +32,7 @@ public class Base : MonoBehaviour
         cagedEmuPosition = cagedEmu.transform.position;
         cagedEmu.SetActive(false);
         ownsAnEmu = true;
-        //cagedEmu.GetComponentInChildren<CagedEmu>().SetOwner(this);
+        cagedEmu.GetComponentInChildren<CagedEmu>().SetOwner(this);
     }
     
     private void OnEnable()

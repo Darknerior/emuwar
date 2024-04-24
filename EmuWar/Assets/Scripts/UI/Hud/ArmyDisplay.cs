@@ -1,5 +1,4 @@
 using Interfaces;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 public class ArmyDisplay : MonoBehaviour

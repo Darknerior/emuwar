@@ -24,6 +24,9 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
         Base = new BaseController(timeBetweenBaseSpawns);
         // Find the player GameObject from the scene
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
@@ -71,6 +74,7 @@ public class GameManager : Singleton<GameManager>
     private void ChangeFocus()
     {
         Cursor.lockState = gameIsPaused ? CursorLockMode.Confined : CursorLockMode.Locked;
+        Cursor.visible = gameIsPaused;
     }
 
     public void BeginRoutine(IEnumerator routine) => StartCoroutine(routine);

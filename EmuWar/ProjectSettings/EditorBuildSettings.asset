@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HeliCutScene.unity
     guid: f34daa662731edc4c8e2281cb08691bd
+  - enabled: 1
+    path: Assets/Scenes/HeliCutExit.unity
+    guid: 44777d35b7103d241a19d9b5942ae378
   m_configObjects: {}
