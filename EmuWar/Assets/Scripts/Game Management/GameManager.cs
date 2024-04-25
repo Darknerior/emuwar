@@ -15,8 +15,8 @@ public class GameManager : Singleton<GameManager>
     private const string exitScene = "HeliCutExit";
     private bool gameIsPaused = false;
     public GameObject player;
-    [SerializeField] private int enemiesToDefeat = 50;
-    private int defeatedEnemies;
+    public int enemiesToDefeat = 50;
+    public int defeatedEnemies;
     public BaseController Base { get; private set; }
     public void Awake()
     {
@@ -90,12 +90,11 @@ public class GameManager : Singleton<GameManager>
     public void ObjectiveProgress()
     {
         defeatedEnemies++;
-        CheckObjective();
     }
 
-    private void CheckObjective()
+    public void TryLoadExitScene()
     {
-       if (defeatedEnemies == enemiesToDefeat) SceneManager.LoadScene(exitScene);
+        if(defeatedEnemies >= enemiesToDefeat)SceneManager.LoadScene(exitScene);
     }
 
 }

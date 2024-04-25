@@ -63766,6 +63766,7 @@ MonoBehaviour:
   timeBetweenBaseSpawns: 10
   player: {fileID: 6989637746300114075}
   enemiesToDefeat: 25
+  defeatedEnemies: 0
 --- !u!4 &1863895828
 Transform:
   m_ObjectHideFlags: 0
@@ -75490,6 +75491,7 @@ GameObject:
   - component: {fileID: 7359778450621373916}
   - component: {fileID: 4739995486953171222}
   - component: {fileID: 7359778450621373917}
+  - component: {fileID: 7359778450621373918}
   m_Layer: 12
   m_Name: Bell Huey
   m_TagString: Untagged
@@ -75585,6 +75587,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7409033987459763983, guid: abd46e6fce584b5439ad7c8cc95d2baa, type: 3}
+--- !u!114 &7359778450621373918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541237356780046531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3544e093e4a7b945ad5e7cfcded03c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitKey: 101
 --- !u!4 &7478876154072622350 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3396338736589925955, guid: 765878d502f88eb48a31d36e5ef26d93, type: 3}
