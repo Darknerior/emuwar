@@ -75143,6 +75143,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2495989222119638374, guid: 765878d502f88eb48a31d36e5ef26d93, type: 3}
+      propertyPath: sphereRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2495989222119638374, guid: 765878d502f88eb48a31d36e5ef26d93, type: 3}
       propertyPath: textMeshProText
       value: 
       objectReference: {fileID: 697158412}

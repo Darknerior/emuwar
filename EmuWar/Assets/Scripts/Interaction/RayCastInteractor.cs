@@ -12,8 +12,6 @@ public class RayCastInteractor : MonoBehaviour
 
     private void Update()
     {
-       
-        
         RaycastHit hit;
         if (!Physics.SphereCast(transform.position, sphereRadius, transform.forward, out hit, interactRange)){if(!gameObject.GetComponent<PlayerController>().inVehicle) textMeshProText.SetText(""); return;}
         var interactable = hit.collider.GetComponent<IInteractable>();
@@ -22,8 +20,6 @@ public class RayCastInteractor : MonoBehaviour
             textMeshProText.SetText(interactable.GetText());
             if (Input.GetKeyDown(interactKey))interactable.Interact();
         }
-        
-        
         
     }
     
